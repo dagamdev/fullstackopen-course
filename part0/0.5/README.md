@@ -17,6 +17,6 @@ server-->>-browser: JavaScript file
 
 browser->>+server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
 Note over browser, server: The JS file is executed and makes a request to the server to obtain the data
-server-->>-browser: JSON data = [ { content: "hola", date: "2024-03-28..." }... ]
+server-->>-browser: JSON data = [ { "content": "hola", "date": "2024-03-28..." }, ... ]
 Note over server, browser: When receiving the data in JS, it renders the content
 ```
