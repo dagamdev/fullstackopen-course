@@ -10,6 +10,8 @@ All the information needed to do this, and the next two exercises, can be found 
 
 You can create the diagrams with any program, but perhaps the best and easiest way to make diagrams is using the Mermaid syntax which is now implemented in GitHub Markdown Pages.
 
+## Result:
+
 ```mermaid
 sequenceDiagram
 participant browser
