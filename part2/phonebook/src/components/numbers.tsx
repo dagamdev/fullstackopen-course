@@ -6,11 +6,11 @@ export default function Numbers ({ persons, filterBy }: {
   filterBy: string
 }) {
   return (
-    <>
-      <h2>Numbers</h2>
+    <section>
+      <h3>Numbers</h3>
       <ul>
         {persons.filter(p => p.name.toLowerCase().includes(filterBy)).map((person) => <Person key={person.id} person={person} />)}
       </ul>
-    </>
+    </section>
   )
 }

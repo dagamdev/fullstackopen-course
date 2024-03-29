@@ -30,7 +30,7 @@ export default function AddForm ({ persons, setPersons }: {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Add a new</h2>
+      <h3>Add a new</h3>
 
       <label>
         Name:
