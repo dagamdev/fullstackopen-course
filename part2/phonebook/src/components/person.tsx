@@ -18,6 +18,7 @@ export default function Person ({ person, setPersons }: {
   return (
     <li>
       <span>{person.name}</span>
+      <br />
       <span>{person.number}</span>
       <button onClick={deletePerson}>Delete</button>
     </li>

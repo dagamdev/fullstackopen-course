@@ -19,8 +19,22 @@ export default function AddForm ({ persons, setPersons }: {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
-    if (persons.some(p => p.name === newName)) {
-      alert(`${newName} is already added to phonebook`)
+    const person = persons.find(p => p.name === newName)
+
+    if (person) {
+      if (person.number === newNumber) {
+        alert(`${newName} is already added to phonebook`)
+        return
+      }
+
+      const confirm = window.confirm(`${person.name} is already added to phonebook, replace the old number whit a new one?`)
+      
+      if (confirm) {
+        personsServices.update(person.id, { ...person, number: newNumber }).then(updatedPerson => {
+          setPersons(ps => ps.map(p => p.id === person.id ? updatedPerson : p))
+        })
+      }
+
       return
     }
 
