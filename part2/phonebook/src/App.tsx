@@ -20,7 +20,7 @@ export default function App() {
       <h2>Phonebook</h2>
       <Filter setFilterBy={setFilterBy} />
       <AddForm persons={persons} setPersons={setPersons} />
-      <Numbers persons={persons} filterBy={filterBy} />
+      <Numbers persons={persons} filterBy={filterBy} setPersons={setPersons} />
     </div>
   )
 }

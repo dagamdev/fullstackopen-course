@@ -1,15 +1,15 @@
-import { useState, type Dispatch, type SetStateAction, type ChangeEvent, type FormEvent } from 'react'
+import { useState, type ChangeEvent, type FormEvent } from 'react'
 import personsServices from '../services/persons'
-import type { Person } from '@/types'
+import type { Person, SetState } from '@/types'
 
 export default function AddForm ({ persons, setPersons }: {
   persons: Person[]
-  setPersons: Dispatch<SetStateAction<Person[]>>
+  setPersons: SetState<Person[]>
 }) {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
 
-  const getHandleChange =  (setState: Dispatch<SetStateAction<string>>) => {
+  const getHandleChange =  (setState: SetState<string>) => {
     return (event: ChangeEvent<HTMLInputElement>) => {
       const { value } = event.currentTarget
   

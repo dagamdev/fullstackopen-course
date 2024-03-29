@@ -15,4 +15,8 @@ function update (id: string, newPerson: Person) {
   return axios.put(`${baseUrl}/${id}`, newPerson).then<Person>(res => res.data)
 }
 
-export default { getAll, create, update }
+function remove (id: string) {
+  return axios.delete(`${baseUrl}/${id}`).then<Person>(res => res.data)
+}
+
+export default { getAll, create, update, delete: remove }
