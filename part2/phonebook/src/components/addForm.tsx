@@ -2,9 +2,10 @@ import { useState, type ChangeEvent, type FormEvent } from 'react'
 import personsServices from '../services/persons'
 import type { Person, SetState } from '@/types'
 
-export default function AddForm ({ persons, setPersons }: {
+export default function AddForm ({ persons, setPersons, setNotification }: {
   persons: Person[]
   setPersons: SetState<Person[]>
+  setNotification: SetState<string | null>
 }) {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
@@ -32,6 +33,10 @@ export default function AddForm ({ persons, setPersons }: {
       if (confirm) {
         personsServices.update(person.id, { ...person, number: newNumber }).then(updatedPerson => {
           setPersons(ps => ps.map(p => p.id === person.id ? updatedPerson : p))
+          setNotification(`Updated ${person.name} number`)
+          setTimeout(() => {
+            setNotification(null)
+          }, 5_000)
         })
       }
 
@@ -42,6 +47,10 @@ export default function AddForm ({ persons, setPersons }: {
       setPersons(v => [...v, newPerson])
       setNewName('')
       setNewNumber('')
+      setNotification(`Added ${newPerson.name}`)
+      setTimeout(() => {
+        setNotification(null)
+      }, 5_000)
     }).catch(console.error)
   }
 
