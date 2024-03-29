@@ -1,4 +1,5 @@
 import { useState, type Dispatch, type SetStateAction, type ChangeEvent, type FormEvent } from 'react'
+import personsServices from '../services/persons'
 import type { Person } from '@/types'
 
 export default function AddForm ({ persons, setPersons }: {
@@ -23,9 +24,11 @@ export default function AddForm ({ persons, setPersons }: {
       return
     }
 
-    setPersons(v => [...v, { name: newName, number: newNumber, id: v.length + 1 }])
-    setNewName('')
-    setNewNumber('')
+    personsServices.create({ name: newName, number: newNumber }).then(newPerson => {
+      setPersons(v => [...v, newPerson])
+      setNewName('')
+      setNewNumber('')
+    }).catch(console.error)
   }
 
   return (

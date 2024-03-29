@@ -1,0 +1,18 @@
+import axios from 'axios'
+import type { Person } from '@/types'
+
+const baseUrl = 'http://localhost:200/persons'
+
+function getAll () {
+  return axios.get(baseUrl).then<Person[]>(res => res.data)
+}
+
+function create (newPerson: Omit<Person, 'id'>) {
+  return axios.post(baseUrl, newPerson).then<Person>(res => res.data)
+}
+
+function update (id: string, newPerson: Person) {
+  return axios.put(`${baseUrl}/${id}`, newPerson).then<Person>(res => res.data)
+}
+
+export default { getAll, create, update }
