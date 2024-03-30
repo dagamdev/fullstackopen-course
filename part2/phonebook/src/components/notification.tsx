@@ -1,11 +1,16 @@
-export default function Notification ({ message }: {
-  message: string | null
+import type { Notification } from '@/types'
+
+export default function Notification ({ notification, close }: {
+  notification: Notification | null
+  close: () => void
 }) {
-  if (message === null) return null
+  if (notification === null) return null
+  
+  setTimeout(close, 5_000)
 
   return (
-    <div className="notification">
-      <p>{message}</p>
+    <div className={`notification ${notification.type}`}>
+      <p>{notification.message}</p>
     </div>
   )
 }

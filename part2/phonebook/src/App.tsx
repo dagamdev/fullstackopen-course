@@ -9,7 +9,10 @@ import personsService from './services/persons'
 export default function App() {
   const [persons, setPersons] = useState<Person[]>([])
   const [filterBy, setFilterBy] = useState('')
-  const [notification, setNotification] = useState<string | null>(null)
+  const [notification, setNotification] = useState<{
+    type: 'success' | 'error'
+    message: string
+  } | null>(null)
   
   useEffect(() => {
     personsService.getAll().then(setPersons).catch(console.error)
@@ -18,10 +21,10 @@ export default function App() {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notification} />
+      <Notification notification={notification} close={() => setNotification(null)} />
       <Filter setFilterBy={setFilterBy} />
       <AddForm persons={persons} setPersons={setPersons} setNotification={setNotification} />
-      <Numbers persons={persons} filterBy={filterBy} setPersons={setPersons} />
+      <Numbers persons={persons} filterBy={filterBy} setPersons={setPersons} setNotification={setNotification} />
     </div>
   )
 }

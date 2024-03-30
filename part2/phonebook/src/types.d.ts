@@ -7,3 +7,8 @@ export interface Person {
 }
 
 export type SetState<State> = Dispatch<SetStateAction<State>>
+
+export interface Notification {
+  type: 'success' | 'error'
+  message: string
+}
