@@ -1,8 +1,11 @@
+import Weather from './weather'
 import type { Country } from '../country'
 
 export default function Country ({ country }: {
   country: Country
 }) {
+  const [lat, lon] = country.latlng
+
   return (
     <article>
       <h1>{country.name.common}</h1>
@@ -25,6 +28,11 @@ export default function Country ({ country }: {
       </section>
 
       <img className='flag' src={country.flags.svg} alt={`${country.name.common} flag`} />
+
+      <section>
+        <h2>Weather in {country.name.common}</h2>
+        <Weather lat={lat} lon={lon} />
+      </section>
     </article>
   )
 }
