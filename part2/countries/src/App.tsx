@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, type ChangeEvent } from 'react'
 import axios from 'axios'
 import Country from './components/country'
 import type { Countries } from './country'
+import Results from './components/results'
 
 function App() {
   const timeout = useRef<number | null>(null)
@@ -31,7 +32,7 @@ function App() {
       if (!results.length) {
         results = countries.filter(c => c.name.common.toLowerCase().startsWith(value))
       }
-      
+
       setResults(results)
     }, 600)
 
@@ -50,7 +51,7 @@ function App() {
           ? <Country country={uniqueResult} />
           : results.length > 10
             ? <p>Too many matches, specify another filter</p>
-            : <ul>{results.map(r => <li key={r.name.official}>{r.name.common}</li>)}</ul>
+            : <Results results={results} setResults={setResults} />
       }
     </>
   )
