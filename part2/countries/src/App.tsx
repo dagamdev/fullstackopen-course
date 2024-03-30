@@ -1,33 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useRef, useEffect, type ChangeEvent } from 'react'
+import axios from 'axios'
+import Country from './components/country'
+import type { Countries } from './country'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const timeout = useRef<number | null>(null)
+  const [countries, setCountries] = useState<Countries>([])
+  const [results, setResults] = useState<Countries>([])
+  const [uniqueResult] = results
+
+  useEffect(() => {
+    axios.get('https://studies.cs.helsinki.fi/restcountries/api/all').then(res => {
+      setCountries(res.data)
+    }).catch(console.error)
+  }, [])
+
+  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.currentTarget.value.toLowerCase().trim()
+
+    if (!value) {
+      setResults([])
+      return
+    }
+    if (timeout.current) clearTimeout(timeout.current)
+    
+    timeout.current = setTimeout(() => {
+      // console.log(value)
+      let results = countries.filter(c => c.name.common.toLowerCase() === value)
+
+      if (!results.length) {
+        results = countries.filter(c => c.name.common.toLowerCase().startsWith(value))
+      }
+      
+      setResults(results)
+    }, 600)
+
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <label>
+        Find countries
+        <input onChange={handleSearch} type="search" />
+      </label>
+
+      {results.length === 0
+        ? <p>Search a country</p>
+        : results.length === 1
+          ? <Country country={uniqueResult} />
+          : results.length > 10
+            ? <p>Too many matches, specify another filter</p>
+            : <ul>{results.map(r => <li key={r.name.official}>{r.name.common}</li>)}</ul>
+      }
     </>
   )
 }
