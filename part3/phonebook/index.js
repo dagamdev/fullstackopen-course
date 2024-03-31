@@ -54,6 +54,22 @@ app.get('/api/persons/:id', (req, res) => {
   res.json(person)
 })
 
+app.delete('/api/persons/:id', (req, res) => {
+  const { id } = req.params
+  const personIndex = persons.findIndex(p => p.id === +id)
+
+  if (personIndex === -1) {
+    res.status(404).json({
+      error: 'Person not found'
+    })
+    return
+  }
+
+  persons.splice(personIndex, 1)
+  
+  res.status(204).end()
+})
+
 const PORT = 321
 app.listen(PORT, () => {
   console.log(`Server runing in the port ${PORT}`)
