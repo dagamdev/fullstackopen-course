@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 const persons = [
   { 
     "id": 1,
@@ -68,6 +70,35 @@ app.delete('/api/persons/:id', (req, res) => {
   persons.splice(personIndex, 1)
   
   res.status(204).end()
+})
+
+app.post('/api/persons', (req, res) => {
+  const { name, number } = req.body
+  console.log({name, number})
+  
+  if (!name) {
+    res.status(400).json({
+      error: 'name mising'
+    })
+    return
+  }
+
+  if (!number) {
+    res.status(400).json({
+      error: 'number mising'
+    })
+    return
+  }
+
+  const newPerson = {
+    id: Math.floor(Math.random() * 888) + 111,
+    name,
+    number
+  }
+
+  persons.push(newPerson)
+
+  res.json(newPerson)
 })
 
 const PORT = 321

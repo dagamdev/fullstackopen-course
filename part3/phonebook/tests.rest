@@ -8,3 +8,12 @@ GET http://localhost:321/api/persons/1
 
 ###
 DELETE http://localhost:321/api/persons/3
+
+###
+POST  http://localhost:321/api/persons
+Content-Type: application/json
+
+{
+  "name": "Emily Medina",
+  "number": "375-302-0932"
+}
