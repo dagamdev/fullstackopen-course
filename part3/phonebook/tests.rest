@@ -2,3 +2,6 @@ GET http://localhost:321/api/persons
 
 ###
 GET http://localhost:321/api/info
+
+###
+GET http://localhost:321/api/persons/1
