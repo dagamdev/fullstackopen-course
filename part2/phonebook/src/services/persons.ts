@@ -1,7 +1,7 @@
 import axios from 'axios'
 import type { Person } from '@/types'
 
-const baseUrl = 'http://localhost:200/persons'
+const baseUrl = '/api/persons'
 
 function getAll () {
   return axios.get(baseUrl).then<Person[]>(res => res.data)
