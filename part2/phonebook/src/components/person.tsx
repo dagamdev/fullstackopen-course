@@ -11,7 +11,7 @@ export default function Person ({ person, setPersons, setNotification }: {
 
     if (!confirm) return
 
-    personsService.delete(person.id).then(person => {
+    personsService.delete(person.id).then(() => {
       setNotification({
         type: 'success',
         message: `${person.name} number has been deleted`
