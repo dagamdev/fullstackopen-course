@@ -1,7 +1,9 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const cors = require('cors')
+const Person = require('./models/person')
 
 app.use(express.json())
 app.use(morgan((tokens, req, res) => {
@@ -17,73 +19,47 @@ app.use(morgan((tokens, req, res) => {
 app.use(cors())
 app.use(express.static('dist'))
 
-const persons = [
-  { 
-    "id": 1,
-    "name": "Arto Hellas", 
-    "number": "040-123456"
-  },
-  { 
-    "id": 2,
-    "name": "Ada Lovelace", 
-    "number": "39-44-5323523"
-  },
-  { 
-    "id": 3,
-    "name": "Dan Abramov", 
-    "number": "12-43-234345"
-  },
-  { 
-    "id": 4,
-    "name": "Mary Poppendieck", 
-    "number": "39-23-6423122"
-  }
-]
-
 app.get('/', (request, response) => {
   response.send(`<h1>Hello World!</h1>`)
 })
 
 app.get('/api/persons', (req, res) => {
-  res.json(persons)
+  Person.find().then(persons => {
+    res.json(persons)
+  })
 })
 
 app.get('/api/info', (req, res) => {
-  res.send(`
-    <p>Phonebook has info for ${persons.length} people<p/>
-    <p>${new Date()}<p/>
-  `)
+  Person.find().then(persons => {
+    res.send(`
+      <p>Phonebook has info for ${persons.length} people<p/>
+      <p>${new Date()}<p/>
+    `)
+  })
 })
 
 app.get('/api/persons/:id', (req, res) => {
   const { id } = req.params
-  const person = persons.find(p => p.id === +id)
 
-  if (!person) {
+  Person.findById(id).then(person => {
+    res.json(person)
+  }).catch(() => {
     res.status(404).json({
       error: 'Person not found'
     })
-    return
-  }
-  res.statusMessage
-  
-  res.json(person)
+  })
 })
 
 app.delete('/api/persons/:id', (req, res) => {
   const { id } = req.params
-  const personIndex = persons.findIndex(p => p.id === +id)
 
-  if (personIndex === -1) {
+  Person.findByIdAndDelete(id).then(deletedPerson => {
+    res.status(204).json(deletedPerson)
+  }).catch(() => {
     res.status(404).json({
       error: 'Person not found'
     })
-    return
-  }
-
-  persons.splice(personIndex, 1)
-  
-  res.status(204).end()
+  })
 })
 
 app.post('/api/persons', (req, res) => {
@@ -103,28 +79,32 @@ app.post('/api/persons', (req, res) => {
     return
   }
 
-  if (persons.some(p => p.name === name)) {
-    res.status(400).json({
-      error: 'name must be unique'
+  Person.findOne({ name }).then(p => {
+    if (p) {
+      res.status(400).json({
+        error: 'name must be unique'
+      })
+      return
+    }
+
+    const newPerson = new Person({
+      name,
+      number
     })
-    return
-  }
-
-  const newPerson = {
-    id: Math.floor(Math.random() * 888) + 111,
-    name,
-    number
-  }
-
-  persons.push(newPerson)
-
-  res.json(newPerson)
+  
+    newPerson.save().then(person => {
+      res.json(person)
+    }).catch(() => {
+      res.status(404).json({
+        error: 'An error has occurred'
+      })
+    })
+  })
 })
 
 app.use((_, res) => {
   res.status(404).send({ error: 'unknown endpoint' })
 })
-
 
 const PORT = process.env.PORT ?? 321
 app.listen(PORT, () => {
