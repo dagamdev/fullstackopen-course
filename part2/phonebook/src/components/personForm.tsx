@@ -18,9 +18,12 @@ export default function PersonForm ({ persons, setPersons, setNotification }: {
     }
   }
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const person = persons.find(p => p.name === newName)
+
+    setNewName('')
+    setNewNumber('')
 
     if (person) {
       if (person.number === newNumber) {
@@ -39,7 +42,6 @@ export default function PersonForm ({ persons, setPersons, setNotification }: {
           })
         }).catch((err) => {
           console.log(err.response.data.error)
-          setPersons(ps => ps.filter(p => p.id !== person.id))
           setNotification({
             type: 'error',
             message: `${err.response.data.error}`
@@ -73,11 +75,11 @@ export default function PersonForm ({ persons, setPersons, setNotification }: {
 
       <label>
         Name:
-        <input onChange={getHandleChange(setNewName)} type="text" value={newName} required />
+        <input name='name' onChange={getHandleChange(setNewName)} type="text" value={newName} required />
       </label>
       <label>
         Number:
-        <input onChange={getHandleChange(setNewNumber)} type="tel" value={newNumber} required />
+        <input name='number' onChange={getHandleChange(setNewNumber)} type="tel" value={newNumber} required />
       </label>
       <button type="submit">add</button>
     </form>

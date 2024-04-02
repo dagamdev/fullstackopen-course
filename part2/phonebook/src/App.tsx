@@ -19,12 +19,14 @@ export default function App() {
   }, [])
 
   return (
-    <div>
-      <h2>Phonebook</h2>
+    <main>
+      <h1>Phonebook</h1>
       <Notification notification={notification} close={() => setNotification(null)} />
-      <Filter setFilterBy={setFilterBy} />
-      <PersonForm persons={persons} setPersons={setPersons} setNotification={setNotification} />
+      <div className='inputs'>
+        <Filter setFilterBy={setFilterBy} />
+        <PersonForm persons={persons} setPersons={setPersons} setNotification={setNotification} />
+      </div>
       <Numbers persons={persons} filterBy={filterBy} setPersons={setPersons} setNotification={setNotification} />
-    </div>
+    </main>
   )
 }

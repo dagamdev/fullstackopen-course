@@ -27,10 +27,11 @@ export default function Person ({ person, setPersons, setNotification }: {
   }
 
   return (
-    <li>
-      <span>{person.name}</span>
-      <br />
-      <span>{person.number}</span>
+    <li className='person'>
+      <p>
+        <strong>{person.name}</strong>
+        <span>{person.number}</span>
+      </p>
       <button onClick={deletePerson}>Delete</button>
     </li>
   )
