@@ -1,0 +1,12 @@
+GET http://localhost:321/api/blogs
+
+###
+POST http://localhost:321/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Frontend, JavaScript, React, CSS, Performance",
+  "author": "Miguel Angel Duran Garcia",
+  "likes": 3568,
+  "url": "https://midu.dev/"
+}
