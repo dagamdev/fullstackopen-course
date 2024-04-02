@@ -14,7 +14,7 @@ const personSchema = new mongoose.Schema({
       validator: function(v) {
         return /\d{3}-\d{3}-\d{4}/.test(v);
       },
-      message: props => `${props.value} is not a valid phone number!`
+      message: props => `${props.value} is not a valid phone number! - example: 756-123-0987`
     },
     required: true
   }
@@ -22,9 +22,9 @@ const personSchema = new mongoose.Schema({
 
 
 mongoose.connect(dbUrl).then(() => {
-  console.log('Conected to data base')
+  console.log('Conected to the data base')
 }).catch(err => {
-  console.error('Error connecting to data base:', err.message)
+  console.error('Error connecting to the data base:', err.message)
 })
 
 personSchema.set('toJSON', {
