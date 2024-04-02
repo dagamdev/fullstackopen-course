@@ -11,15 +11,14 @@ const personSchema = new mongoose.Schema({
     type: String,
     minLength: 8,
     validate: {
-      validator: function(v) {
-        return /\d{3}-\d{3}-\d{4}/.test(v);
+      validator: function (v) {
+        return /\d{3}-\d{3}-\d{4}/.test(v)
       },
       message: props => `${props.value} is not a valid phone number! - example: 756-123-0987`
     },
     required: true
   }
 })
-
 
 mongoose.connect(dbUrl).then(() => {
   console.log('Conected to the data base')

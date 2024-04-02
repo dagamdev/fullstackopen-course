@@ -20,7 +20,7 @@ app.use(cors())
 app.use(express.static('dist'))
 
 app.get('/', (request, response) => {
-  response.send(`<h1>Hello World!</h1>`)
+  response.send('<h1>Hello World!</h1>')
 })
 
 app.get('/api/persons', (req, res) => {
@@ -48,7 +48,7 @@ app.get('/api/persons/:id', (req, res, next) => {
       })
       return
     }
-    
+
     res.json(person)
   }).catch(next)
 })
@@ -63,14 +63,14 @@ app.delete('/api/persons/:id', (req, res, next) => {
       })
       return
     }
-    
+
     res.status(204).json(deletedPerson)
   }).catch(next)
 })
 
 app.post('/api/persons', (req, res, next) => {
   const { name, number } = req.body
-  
+
   if (!name) {
     res.status(400).json({
       error: 'name missing'
@@ -111,7 +111,7 @@ app.post('/api/persons', (req, res, next) => {
 app.put('/api/persons/:id', (req, res, next) => {
   const { id } = req.params
   const { name, number } = req.body
-  
+
   if (!name && !number) {
     res.status(400).json({
       error: 'no property has been provided to edit'
