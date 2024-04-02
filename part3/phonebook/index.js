@@ -38,31 +38,37 @@ app.get('/api/info', (req, res) => {
   })
 })
 
-app.get('/api/persons/:id', (req, res) => {
+app.get('/api/persons/:id', (req, res, next) => {
   const { id } = req.params
 
   Person.findById(id).then(person => {
+    if (!person) {
+      res.status(404).json({
+        error: 'Person not found'
+      })
+      return
+    }
+    
     res.json(person)
-  }).catch(() => {
-    res.status(404).json({
-      error: 'Person not found'
-    })
-  })
+  }).catch(next)
 })
 
-app.delete('/api/persons/:id', (req, res) => {
+app.delete('/api/persons/:id', (req, res, next) => {
   const { id } = req.params
 
   Person.findByIdAndDelete(id).then(deletedPerson => {
+    if (!person) {
+      res.status(404).json({
+        error: 'Person not found'
+      })
+      return
+    }
+    
     res.status(204).json(deletedPerson)
-  }).catch(() => {
-    res.status(404).json({
-      error: 'Person not found'
-    })
-  })
+  }).catch(next)
 })
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
   const { name, number } = req.body
   
   if (!name) {
@@ -79,6 +85,11 @@ app.post('/api/persons', (req, res) => {
     return
   }
 
+  const newPerson = new Person({
+    name,
+    number
+  })
+
   Person.findOne({ name }).then(p => {
     if (p) {
       res.status(400).json({
@@ -87,19 +98,24 @@ app.post('/api/persons', (req, res) => {
       return
     }
 
-    const newPerson = new Person({
-      name,
-      number
-    })
-  
     newPerson.save().then(person => {
       res.json(person)
-    }).catch(() => {
-      res.status(404).json({
-        error: 'An error has occurred'
-      })
-    })
+    }).catch(next)
+  }).catch(() => {
+    newPerson.save().then(person => {
+      res.json(person)
+    }).catch(next)
   })
+})
+
+app.use((error, req, res, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return res.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
 })
 
 app.use((_, res) => {
