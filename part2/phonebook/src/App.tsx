@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import AddForm from './components/addForm'
+import PersonForm from './components/personForm'
 import Numbers from './components/numbers'
 import Filter from './components/filter'
 import type { Person } from './types'
@@ -23,7 +23,7 @@ export default function App() {
       <h2>Phonebook</h2>
       <Notification notification={notification} close={() => setNotification(null)} />
       <Filter setFilterBy={setFilterBy} />
-      <AddForm persons={persons} setPersons={setPersons} setNotification={setNotification} />
+      <PersonForm persons={persons} setPersons={setPersons} setNotification={setNotification} />
       <Numbers persons={persons} filterBy={filterBy} setPersons={setPersons} setNotification={setNotification} />
     </div>
   )

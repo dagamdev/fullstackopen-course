@@ -2,7 +2,7 @@ import { useState, type ChangeEvent, type FormEvent } from 'react'
 import personsServices from '../services/persons'
 import type { Notification, Person, SetState } from '@/types'
 
-export default function AddForm ({ persons, setPersons, setNotification }: {
+export default function PersonForm ({ persons, setPersons, setNotification }: {
   persons: Person[]
   setPersons: SetState<Person[]>
   setNotification: SetState<Notification | null>
@@ -37,11 +37,12 @@ export default function AddForm ({ persons, setPersons, setNotification }: {
             type: 'success',
             message: `Updated ${person.name} number`
           })
-        }).catch(() => {
+        }).catch((err) => {
+          console.log(err.response.data.error)
           setPersons(ps => ps.filter(p => p.id !== person.id))
           setNotification({
             type: 'error',
-            message: `${person.name} number is deleted`
+            message: `${err.response.data.error}`
           })
         })
       }
@@ -57,7 +58,13 @@ export default function AddForm ({ persons, setPersons, setNotification }: {
         type: 'success',
         message: `Added ${newPerson.name}`
       })
-    }).catch(console.error)
+    }).catch((err) => {
+      console.error(err.response.data.error)
+      setNotification({
+        type: 'error',
+        message: `${err.response.data.error}`
+      })
+    })
   }
 
   return (

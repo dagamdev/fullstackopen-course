@@ -112,16 +112,9 @@ app.put('/api/persons/:id', (req, res, next) => {
   const { id } = req.params
   const { name, number } = req.body
   
-  if (!name) {
+  if (!name && !number) {
     res.status(400).json({
-      error: 'name missing'
-    })
-    return
-  }
-
-  if (!number) {
-    res.status(400).json({
-      error: 'number missing'
+      error: 'no property has been provided to edit'
     })
     return
   }
@@ -129,7 +122,7 @@ app.put('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndUpdate(id, {
     name,
     number
-  }, { new: true }).then(updatedPerson => {
+  }, { new: true, runValidators: true, context: 'query' }).then(updatedPerson => {
     if (!updatedPerson) {
       res.status(404).json({
         error: 'Person not found'
@@ -150,7 +143,9 @@ app.use((error, req, res, next) => {
 
   if (error.name === 'CastError') {
     return res.status(400).send({ error: 'malformatted id' })
-  } 
+  } else if (error.name === 'ValidationError') {
+    return res.status(400).json({ error: error.message })
+  }
 
   next(error)
 })
