@@ -17,3 +17,12 @@ Content-Type: application/json
   "name": "Emily Medina",
   "number": "375-302-0932"
 }
+
+###
+PUT  http://localhost:321/api/persons/660a099ec2f9ab84d2c648ed
+Content-Type: application/json
+
+{
+  "name": "Anna Carrillo",
+  "number": "375-321-0932"
+}

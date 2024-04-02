@@ -57,7 +57,7 @@ app.delete('/api/persons/:id', (req, res, next) => {
   const { id } = req.params
 
   Person.findByIdAndDelete(id).then(deletedPerson => {
-    if (!person) {
+    if (!deletedPerson) {
       res.status(404).json({
         error: 'Person not found'
       })
@@ -108,6 +108,43 @@ app.post('/api/persons', (req, res, next) => {
   })
 })
 
+app.put('/api/persons/:id', (req, res, next) => {
+  const { id } = req.params
+  const { name, number } = req.body
+  
+  if (!name) {
+    res.status(400).json({
+      error: 'name missing'
+    })
+    return
+  }
+
+  if (!number) {
+    res.status(400).json({
+      error: 'number missing'
+    })
+    return
+  }
+
+  Person.findByIdAndUpdate(id, {
+    name,
+    number
+  }, { new: true }).then(updatedPerson => {
+    if (!updatedPerson) {
+      res.status(404).json({
+        error: 'Person not found'
+      })
+      return
+    }
+
+    res.json(updatedPerson)
+  }).catch(next)
+})
+
+app.use((_, res) => {
+  res.status(404).send({ error: 'unknown endpoint' })
+})
+
 app.use((error, req, res, next) => {
   console.error(error.message)
 
@@ -116,10 +153,6 @@ app.use((error, req, res, next) => {
   } 
 
   next(error)
-})
-
-app.use((_, res) => {
-  res.status(404).send({ error: 'unknown endpoint' })
 })
 
 const PORT = process.env.PORT ?? 321
