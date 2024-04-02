@@ -22,9 +22,6 @@ export default function PersonForm ({ persons, setPersons, setNotification }: {
     event.preventDefault()
     const person = persons.find(p => p.name === newName)
 
-    setNewName('')
-    setNewNumber('')
-
     if (person) {
       if (person.number === newNumber) {
         alert(`${newName} is already added to phonebook`)
@@ -40,6 +37,8 @@ export default function PersonForm ({ persons, setPersons, setNotification }: {
             type: 'success',
             message: `Updated ${person.name} number`
           })
+          setNewName('')
+          setNewNumber('')
         }).catch((err) => {
           console.log(err.response.data.error)
           setNotification({
@@ -60,6 +59,8 @@ export default function PersonForm ({ persons, setPersons, setNotification }: {
         type: 'success',
         message: `Added ${newPerson.name}`
       })
+      setNewName('')
+      setNewNumber('')
     }).catch((err) => {
       console.error(err.response.data.error)
       setNotification({
