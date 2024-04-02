@@ -4,21 +4,19 @@
 
 .notification {
   top: 8px;
-  position: sticky;
+  border: solid 3px;
   padding: 8px 16px;
-  border: solid 4px;
-  font-size: large;
+  position: sticky;
   font-weight: bolder;
   border-radius: 8px;
-  background-color: light-dark(lightgray, darkgray);
+  margin-bottom: 8px;
+  background-color: var(--bg);
 
   &.success {
-    color: green;
     border-color: green;
   }
 
   &.error {
-    color: red;
     border-color: red;
   }
 
