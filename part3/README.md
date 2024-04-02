@@ -1,2 +1,2 @@
-# Solutions of part 2 exercises
+# Solutions of part 3 exercises
 One exercise per folder
