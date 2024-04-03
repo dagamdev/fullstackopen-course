@@ -9,6 +9,8 @@ const morgan = require('morgan')
 const middlewares = require('./utils/middlewares')
 const blogControllers = require('./controllers/blog.controllers')
 
+mongoose.set('bufferTimeoutMS', 30_000)
+
 mongoose.connect(DB_URL).then(() => {
   logger.info('Connected to the data base')
 }).catch((err) => {
