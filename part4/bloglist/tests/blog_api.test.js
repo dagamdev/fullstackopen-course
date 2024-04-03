@@ -9,6 +9,9 @@ describe('API tests', () => {
     const response = await api.get('/api/blogs')
 
     expect(response.body).toHaveLength(1)
+    response.body.forEach(blog => {
+      expect(blog.id).toBeDefined()
+    })
   }, 100_000)
 })
 
