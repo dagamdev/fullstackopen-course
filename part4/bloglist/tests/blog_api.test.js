@@ -21,13 +21,16 @@ const initialBlogs = [
   }
 ]
 
+let blogId = ''
+
 beforeEach(async () => {
   await Blog.deleteMany()
-  await Blog.insertMany(initialBlogs)
+  const newBlogs = await Blog.insertMany(initialBlogs)
+  blogId = newBlogs[0].id
 }, timeout)
 
-describe('API tests', () => {
-  test('Get blogs', async () => {
+describe('requests GET', () => {
+  test('Get all blogs', async () => {
     const res = await api.get('/api/blogs')
 
     expect(res.body).toHaveLength(initialBlogs.length)
@@ -36,6 +39,17 @@ describe('API tests', () => {
     })
   }, timeout)
 
+  test('get blog by id', async () => {
+    const res = await api.get(`/api/blogs/${blogId}`)
+
+    expect(res.body.id).toBe(blogId)
+    expect(res.body.title).toBe('React patterns')
+    expect(res.body.author).toBe('Michael Chan')
+    expect(res.body.likes).toBe(7)
+  })
+})
+
+describe('requests POST', () => {
   test('new blog', async () => {
     const newBlog = {
       url: 'https://midu.dev/',
@@ -78,6 +92,37 @@ describe('API tests', () => {
 
     expect(res.status).toBe(400)
   }, timeout)
+})
+
+describe('requests DELETE', () => {
+  test('delete blog', async () => {
+    const res = await api.delete(`/api/blogs/${blogId}`)
+
+    expect(res.status).toBe(200)
+    expect(res.body.id).toBeDefined()
+    expect(res.body.id).toBe(blogId)
+  })
+})
+
+describe('requests PATCH', () => {
+  test('update blog likes', async () => {
+    const res = await api.patch(`/api/blogs/${blogId}`).send({ likes: 30 })
+
+    expect(res.status).toBe(200)
+    expect(res.body.likes).toBe(30)
+  })
+
+  test('update title and author', async () => {
+    const res = await api.patch(`/api/blogs/${blogId}`).send({
+      title: 'Hola que hace?',
+      author: 'Jest Testing'
+    })
+
+    expect(res.status).toBe(200)
+    expect(res.body.title).toBe('Hola que hace?')
+    expect(res.body.author).toBe('Jest Testing')
+    expect(res.body.likes).toBe(7)
+  })
 })
 
 afterAll(() => {
