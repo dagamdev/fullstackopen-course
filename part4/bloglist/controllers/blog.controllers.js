@@ -68,17 +68,30 @@ router.route('/:id')
   .delete(async (req, res, next) => {
     try {
       const { id } = req.params
+      const decodedToken = jwt.verify(req.token, JWT_SECRET)
 
-      const deletedBlog = await Blog.findByIdAndDelete(id)
+      if (!decodedToken.id) {
+        return res.status(401).json({ error: 'invalid token' })
+      }
 
-      if (!deletedBlog) {
+      const blog = await Blog.findById(id)
+
+      if (!blog) {
         res.status(404).json({
           error: 'blog not found'
         })
         return
       }
 
-      res.json(deletedBlog)
+      if (blog.user.toString() !== decodedToken.id) {
+        return res.status(401).json({
+          error: 'the blog does not belong to the user'
+        })
+      }
+
+      await blog.deleteOne()
+
+      res.json(blog)
     } catch (error) {
       next(error)
     }
