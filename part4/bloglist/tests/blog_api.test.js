@@ -8,12 +8,6 @@ const api = supertest(app)
 const timeout = 60_000
 const initialBlogs = [
   {
-    title: 'Frontend, JavaScript, React, CSS, Performance',
-    author: 'Miguel Angel Duran Garcia',
-    url: 'https://midu.dev/',
-    likes: 3568
-  },
-  {
     title: 'React patterns',
     author: 'Michael Chan',
     url: 'https://reactpatterns.com/',
@@ -34,12 +28,30 @@ beforeEach(async () => {
 
 describe('API tests', () => {
   test('Get blogs', async () => {
-    const response = await api.get('/api/blogs')
+    const res = await api.get('/api/blogs')
 
-    expect(response.body).toHaveLength(initialBlogs.length)
-    response.body.forEach(blog => {
+    expect(res.body).toHaveLength(initialBlogs.length)
+    res.body.forEach(blog => {
       expect(blog.id).toBeDefined()
     })
+  }, timeout)
+
+  test('new blog', async () => {
+    const newBlog = {
+      url: 'https://midu.dev/',
+      title: 'Frontend, JavaScript, React, CSS, Performance',
+      author: 'Miguel Angel Duran Garcia',
+      likes: 3568
+    }
+
+    const newBlogRes = await api.post('/api/blogs').send(newBlog)
+
+    expect(newBlogRes.status).toBe(201)
+
+    const blogsRes = await api.get('/api/blogs')
+
+    expect(blogsRes.body.length).toBe(initialBlogs.length + 1)
+    expect(blogsRes.body).toContainEqual(newBlogRes.body)
   }, timeout)
 
   test('exist likes', async () => {
@@ -49,11 +61,11 @@ describe('API tests', () => {
       url: 'http://localhost:321/api/blogs'
     }
 
-    const response = await api.post('/api/blogs').send(newBlog)
+    const res = await api.post('/api/blogs').send(newBlog)
 
-    expect(response.status).toBe(201)
-    expect(response.body.likes).toBeDefined()
-    expect(response.body.likes).toBe(0)
+    expect(res.status).toBe(201)
+    expect(res.body.likes).toBeDefined()
+    expect(res.body.likes).toBe(0)
   }, timeout)
 
   test('create blog - 400 Bad Request', async () => {
@@ -62,9 +74,9 @@ describe('API tests', () => {
       author: 'dagamdev'
     }
 
-    const response = await api.post('/api/blogs').send(newBlog)
+    const res = await api.post('/api/blogs').send(newBlog)
 
-    expect(response.status).toBe(400)
+    expect(res.status).toBe(400)
   }, timeout)
 })
 
