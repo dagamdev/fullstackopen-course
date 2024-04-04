@@ -18,7 +18,6 @@ POST http://localhost:321/api/users
 Content-Type: application/json
 
 {
-  "name": "Root",
-  "username": "root",
-  "password": "1root3"
+  "username": "a",
+  "password": "1reee"
 }

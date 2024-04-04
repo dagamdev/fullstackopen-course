@@ -10,7 +10,8 @@ function unknowEndpoint (_, res) {
 }
 
 function error (error, _, res, next) {
-  logger.error(error.message)
+  logger.error('Name: ', error.name)
+  logger.error('Message: ', error.message)
 
   if (error.name === 'CastError') {
     return res.status(400).send({ error: 'malformatted id' })
