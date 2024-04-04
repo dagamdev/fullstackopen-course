@@ -24,3 +24,12 @@ Content-Type: application/json
   "username": "midudev",
   "password": "midudev"
 }
+
+###
+POST http://localhost:321/api/login
+Content-Type: application/json
+
+{
+  "username": "midudev",
+  "password": "midudev"
+}
