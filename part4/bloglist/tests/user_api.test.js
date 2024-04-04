@@ -2,7 +2,6 @@ const app = require('../app')
 const supertest = require('supertest')
 const api = supertest(app)
 const mongoose = require('mongoose')
-const User = require('../models/user')
 
 describe('user api', () => {
   test('user creation integrity', async () => {

@@ -20,7 +20,7 @@ mongoose.connect(DB_URL).then(() => {
 
 app.use(express.json())
 app.use(cors())
-app.use(morgan(NODE_ENV === 'dev' ? 'dev' : 'common'))
+app.use(morgan(NODE_ENV === 'dev' ? 'dev' : 'tiny'))
 
 app.use('/api/blogs', blogControllers)
 app.use('/api/users', userControllers)

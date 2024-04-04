@@ -5,9 +5,11 @@ POST http://localhost:321/api/blogs
 Content-Type: application/json
 
 {
-  "name": "Dagamblog",
-  "author": "dagamdev",
-  "url": "http://localhost:321/api/blogs"
+  "url": "https://midu.dev/",
+  "title": "Frontend, JavaScript, React, CSS, Performance",
+  "author": "Miguel Angel Duran Garcia",
+  "likes": 3568,
+  "userId": "660f14c4da157e1f22d1aba3"
 }
 
 ###
@@ -18,6 +20,7 @@ POST http://localhost:321/api/users
 Content-Type: application/json
 
 {
-  "username": "a",
-  "password": "1reee"
+  "name": "Miguel Angel Duran Garcia",
+  "username": "midudev",
+  "password": "midudev"
 }
