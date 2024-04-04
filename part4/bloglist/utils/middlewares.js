@@ -32,7 +32,32 @@ function error (error, _, res, next) {
   next(error)
 }
 
+/**
+ * @param {import('express').Request} req Express request
+ * @returns
+ */
+function getTokenFrom (req) {
+  const authorization = req.get('authorization')
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '')
+  }
+  return null
+}
+
+/**
+ * Get authorization token middleware
+ * @param {import('express').Request} req Express Request
+ * @param {import('express').Response} res Express Response
+ * @param {import('express').NextFunction} next Express next function
+ */
+function tokenExtractor (req, res, next) {
+  req.token = getTokenFrom(req)
+
+  next()
+}
+
 module.exports = {
   unknowEndpoint,
-  error
+  error,
+  tokenExtractor
 }

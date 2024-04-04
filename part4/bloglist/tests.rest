@@ -3,14 +3,13 @@ GET http://localhost:321/api/blogs
 ###
 POST http://localhost:321/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MGYxNGM0ZGExNTdlMWYyMmQxYWJhMyIsInVzZXJuYW1lIjoibWlkdWRldiIsImlhdCI6MTcxMjI3MjIxMCwiZXhwIjoxNzEyNzA0MjEwfQ.ufT3305Q4jC0i0FV7gFCtC0_UohASoONPP_mp4IJ-RM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MGYwOTA3NzY3YWE4MDk5ZmVlYWM0NyIsInVzZXJuYW1lIjoicm9vdCIsImlhdCI6MTcxMjI3MzQ1MywiZXhwIjoxNzEyNzA1NDUzfQ.GXBeorO0keT9ybZ61fFkZsST7uEfLI16cXyYjcmih5Q
 
 {
-  "url": "https://midu.dev/",
-  "title": "Frontend, JavaScript, React, CSS, Performance",
-  "author": "Miguel Angel Duran Garcia",
-  "likes": 3568,
-  "userId": "660f14c4da157e1f22d1aba3"
+  "url": "https://root.rt/",
+  "title": "Root title blog",
+  "author": "Root",
+  "userId": "660f0907767aa8099feeac47"
 }
 
 ###
@@ -34,6 +33,6 @@ POST http://localhost:321/api/login
 Content-Type: application/json
 
 {
-  "username": "midudev",
-  "password": "midudev"
+  "username": "root",
+  "password": "1root3"
 }

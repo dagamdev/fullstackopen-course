@@ -23,6 +23,8 @@ app.use(express.json())
 app.use(cors())
 app.use(morgan(NODE_ENV === 'dev' ? 'dev' : 'tiny'))
 
+app.use(middlewares.tokenExtractor)
+
 app.use('/api/blogs', blogControllers)
 app.use('/api/users', userControllers)
 app.use('/api/login', loginControllers)
