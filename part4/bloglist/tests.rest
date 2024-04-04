@@ -9,3 +9,16 @@ Content-Type: application/json
   "author": "dagamdev",
   "url": "http://localhost:321/api/blogs"
 }
+
+###
+GET http://localhost:321/api/users
+
+###
+POST http://localhost:321/api/users
+Content-Type: application/json
+
+{
+  "name": "Root",
+  "username": "root",
+  "password": "1root3"
+}

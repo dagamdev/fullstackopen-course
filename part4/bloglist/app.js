@@ -8,6 +8,7 @@ const morgan = require('morgan')
 
 const middlewares = require('./utils/middlewares')
 const blogControllers = require('./controllers/blog.controllers')
+const userControllers = require('./controllers/user.controllers')
 
 mongoose.set('bufferTimeoutMS', 30_000)
 
@@ -22,6 +23,7 @@ app.use(cors())
 app.use(morgan(NODE_ENV === 'dev' ? 'dev' : 'common'))
 
 app.use('/api/blogs', blogControllers)
+app.use('/api/users', userControllers)
 
 app.use(middlewares.unknowEndpoint)
 app.use(middlewares.error)
