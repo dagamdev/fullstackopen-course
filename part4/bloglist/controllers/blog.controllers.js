@@ -1,6 +1,20 @@
 const router = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+const { JWT_SECRET } = require('../utils/config')
+
+/**
+ * @param {import('express').Request} req Express request
+ * @returns
+ */
+function getTokenFrom (req) {
+  const authorization = req.get('authorization')
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '')
+  }
+  return null
+}
 
 router.route('/')
   .get(async (_, res, next) => {
@@ -19,6 +33,11 @@ router.route('/')
   .post(async (req, res, next) => {
     try {
       const { userId } = req.body
+      const decodedToken = jwt.verify(getTokenFrom(req), JWT_SECRET)
+
+      if (!decodedToken.id) {
+        return res.status(401).json({ error: 'invalid token' })
+      }
 
       const user = await User.findById(userId)
 

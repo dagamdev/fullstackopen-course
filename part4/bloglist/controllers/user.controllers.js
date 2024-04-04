@@ -48,4 +48,29 @@ router.route('/')
     }
   })
 
+router.route('/:id')
+  .get(async (req, res, next) => {
+    try {
+      const { id } = req.params
+      const user = await User.findById(id).populate('blogs', {
+        url: 1,
+        title: 1,
+        author: 1,
+        likes: 1,
+        id: 1
+      })
+
+      if (!user) {
+        res.status(404).json({
+          error: 'user not found'
+        })
+        return
+      }
+
+      res.json(user)
+    } catch (error) {
+      next(error)
+    }
+  })
+
 module.exports = router

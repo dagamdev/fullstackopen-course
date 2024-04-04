@@ -3,6 +3,7 @@ GET http://localhost:321/api/blogs
 ###
 POST http://localhost:321/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MGYxNGM0ZGExNTdlMWYyMmQxYWJhMyIsInVzZXJuYW1lIjoibWlkdWRldiIsImlhdCI6MTcxMjI3MjIxMCwiZXhwIjoxNzEyNzA0MjEwfQ.ufT3305Q4jC0i0FV7gFCtC0_UohASoONPP_mp4IJ-RM
 
 {
   "url": "https://midu.dev/",
@@ -11,6 +12,9 @@ Content-Type: application/json
   "likes": 3568,
   "userId": "660f14c4da157e1f22d1aba3"
 }
+
+###
+DELETE http://localhost:321/api/blogs/660f34131e588bf36c411e48
 
 ###
 GET http://localhost:321/api/users
