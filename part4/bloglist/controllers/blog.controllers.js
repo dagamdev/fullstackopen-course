@@ -1,8 +1,5 @@
 const router = require('express').Router()
 const Blog = require('../models/blog')
-const User = require('../models/user')
-const jwt = require('jsonwebtoken')
-const { JWT_SECRET } = require('../utils/config')
 
 router.route('/')
   .get(async (_, res, next) => {
@@ -20,14 +17,7 @@ router.route('/')
   })
   .post(async (req, res, next) => {
     try {
-      const { userId } = req.body
-      const decodedToken = jwt.verify(req.token, JWT_SECRET)
-
-      if (!decodedToken.id) {
-        return res.status(401).json({ error: 'invalid token' })
-      }
-
-      const user = await User.findById(userId)
+      const { user } = req
 
       const newBlog = await Blog.create({
         ...req.body,
@@ -67,12 +57,8 @@ router.route('/:id')
   })
   .delete(async (req, res, next) => {
     try {
+      const { user } = req
       const { id } = req.params
-      const decodedToken = jwt.verify(req.token, JWT_SECRET)
-
-      if (!decodedToken.id) {
-        return res.status(401).json({ error: 'invalid token' })
-      }
 
       const blog = await Blog.findById(id)
 
@@ -83,7 +69,7 @@ router.route('/:id')
         return
       }
 
-      if (blog.user.toString() !== decodedToken.id) {
+      if (blog.user.toString() !== user.id.toString()) {
         return res.status(401).json({
           error: 'the blog does not belong to the user'
         })

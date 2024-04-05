@@ -1,4 +1,7 @@
 const logger = require('./logger')
+const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+const { JWT_SECRET } = require('./config')
 
 /**
  * Unknow endpoint middleware
@@ -56,8 +59,40 @@ function tokenExtractor (req, res, next) {
   next()
 }
 
+/**
+ * Get user from DB
+ * @param {import('express').Request} req Express Request
+ * @param {import('express').Response} res Express Response
+ * @param {import('express').NextFunction} next Express next function
+ */
+async function userExtractor (req, res, next) {
+  try {
+    const decodedToken = jwt.verify(req.token, JWT_SECRET)
+
+    if (!decodedToken.id) {
+      return res.status(401).json({
+        error: 'invalid token'
+      })
+    }
+
+    const user = await User.findById(decodedToken.id)
+
+    if (!user) {
+      return res.status(401).json({
+        error: 'invalid token'
+      })
+    }
+
+    req.user = user
+    next()
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
   unknowEndpoint,
   error,
-  tokenExtractor
+  tokenExtractor,
+  userExtractor
 }
