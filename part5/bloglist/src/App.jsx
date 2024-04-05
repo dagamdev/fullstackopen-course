@@ -3,10 +3,16 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import LoginForm from './components/loginForm'
 import BlogForm from './components/blogForm'
+import Notification from './components/notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
+
+  /**
+   * @type {[NotifiState, SetNotifi]}
+   */
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     const sessionStorage = localStorage.getItem('userSession')
@@ -23,7 +29,13 @@ const App = () => {
 
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
-    ).catch(console.error)
+    ).catch(error => {
+      console.error(error)
+      setNotification({
+        type: 'error',
+        message: error.response.data.error
+      })
+    })
   }, [user])
 
   const logout = () => {
@@ -34,6 +46,7 @@ const App = () => {
 
   return (
     <div>
+      {notification && <Notification notification={notification} setNotification={setNotification} />}
       {user
         ? <>
           <h2>Blogs</h2>
@@ -43,13 +56,13 @@ const App = () => {
             <button onClick={logout}>Logout</button>
           </div>
 
-          <BlogForm setBlogs={setBlogs} />
+          <BlogForm setBlogs={setBlogs} setNotification={setNotification} />
 
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}
         </>
-        : <LoginForm setUser={setUser} />
+        : <LoginForm setUser={setUser} setNotification={setNotification} />
       }
     </div>
   )

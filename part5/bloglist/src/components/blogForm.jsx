@@ -1,7 +1,12 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-export default function BlogForm ({ setBlogs }) {
+/**
+ * Blog form component
+ * @param {{setBlogs: () => void, setNotification: SetNotifi}} param0 props
+ * @returns JSX
+ */
+export default function BlogForm ({ setBlogs, setNotification }) {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -16,8 +21,16 @@ export default function BlogForm ({ setBlogs }) {
       setTitle('')
       setAuthor('')
       setUrl('')
+      setNotification({
+        type: 'success',
+        message: `A new ${author} blog has been created`
+      })
     } catch (error) {
       console.error(error)
+      setNotification({
+        type: 'error',
+        message: error.response.data.error
+      })
     }
   }
 

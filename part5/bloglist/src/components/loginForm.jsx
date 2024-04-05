@@ -2,7 +2,12 @@ import { useState } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
-export default function LoginForm ({ setUser }) {
+/**
+ * Login user component
+ * @param {{setUser: () => void, setNotification: SetNotifi}} param0 props
+ * @returns JSX
+ */
+export default function LoginForm ({ setUser, setNotification }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -22,8 +27,16 @@ export default function LoginForm ({ setUser }) {
       blogService.setToken(user)
       setUsername('')
       setPassword('')
+      setNotification({
+        type: 'success',
+        message: 'successfully registered'
+      })
     } catch (error) {
       console.error(error)
+      setNotification({
+        type: 'error',
+        message: error.response.data.error
+      })
     }
   }
 

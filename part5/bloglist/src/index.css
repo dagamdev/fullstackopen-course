@@ -14,3 +14,21 @@ button, input {
 p {
   margin: 0;
 }
+
+.notification {
+  top: 0;
+  border: 3px solid;
+  padding: 10px 16px;
+  position: sticky;
+  border-radius: 8px;
+  
+  &.success {
+    border-color: green;
+    background-color: rgb(0, 128, 0, 0.3);
+  }
+
+  &.error {
+    border-color: red;
+    background-color: rgba(255, 0, 0, 0.3);
+  }
+}
