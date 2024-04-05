@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Blog = require('../models/blog')
+const middlewares = require('../utils/middlewares')
 
 router.route('/')
   .get(async (_, res, next) => {
@@ -15,7 +16,7 @@ router.route('/')
       next(error)
     }
   })
-  .post(async (req, res, next) => {
+  .post(middlewares.userExtractor, async (req, res, next) => {
     try {
       const { user } = req
 
@@ -55,7 +56,7 @@ router.route('/:id')
       next(error)
     }
   })
-  .delete(async (req, res, next) => {
+  .delete(middlewares.userExtractor, async (req, res, next) => {
     try {
       const { user } = req
       const { id } = req.params

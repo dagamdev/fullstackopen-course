@@ -25,7 +25,7 @@ app.use(morgan(NODE_ENV === 'dev' ? 'dev' : 'tiny'))
 
 app.use(middlewares.tokenExtractor)
 
-app.use('/api/blogs', middlewares.userExtractor, blogControllers)
+app.use('/api/blogs', blogControllers)
 app.use('/api/users', userControllers)
 app.use('/api/login', loginControllers)
 
