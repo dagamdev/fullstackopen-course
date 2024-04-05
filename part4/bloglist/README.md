@@ -1,4 +1,4 @@
-# Solution to exercise 4.1 to 4.23 - Phonebook server
+# Solution to exercise 4.1 to 4.23 - Blog list server
 Full Stack open course
 
 In this part of the course, I developed the REST API for blogs with token authentication. To create a blog or delete it, the access token is required to perform the action. To obtain the token, a POST request is made to the /api/login route with the username and password of the user.

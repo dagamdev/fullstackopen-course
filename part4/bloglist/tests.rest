@@ -3,13 +3,14 @@ GET http://localhost:321/api/blogs
 ###
 POST http://localhost:321/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MGYwOTA3NzY3YWE4MDk5ZmVlYWM0NyIsInVzZXJuYW1lIjoicm9vdCIsImlhdCI6MTcxMjI3MzQ1MywiZXhwIjoxNzEyNzA1NDUzfQ.GXBeorO0keT9ybZ61fFkZsST7uEfLI16cXyYjcmih5Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTA0MWM3MzA4YTI1NDRmNzdlMTk4MCIsInVzZXJuYW1lIjoibWlkdWRldiIsImlhdCI6MTcxMjM0NTQ0OCwiZXhwIjoxNzEyNzc3NDQ4fQ.6Iy0rr-HmnI1DEiEnuQV0kFHZn_wXWvEeTrpEw_Xp80
+
 
 {
-  "url": "https://root.rt/",
-  "title": "Root title blog",
-  "author": "Root",
-  "userId": "660f0907767aa8099feeac47"
+  "url": "https://midu.dev/",
+  "title": "Frontend, JavaScript, React, CSS, Performance",
+  "author": "Miguel Angel Duran Garcia",
+  "likes": 3568
 }
 
 ###
