@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import loginService from '../services/login'
+import blogService from '../services/blogs'
 
 export default function LoginForm ({ setUser }) {
   const [username, setUsername] = useState('')
@@ -18,6 +19,7 @@ export default function LoginForm ({ setUser }) {
       localStorage.setItem('userSession', JSON.stringify(user))
 
       setUser(user)
+      blogService.setToken(user)
       setUsername('')
       setPassword('')
     } catch (error) {
@@ -32,11 +34,11 @@ export default function LoginForm ({ setUser }) {
       <form onSubmit={handleSubmit}>
         <label>
           Username
-          <input onChange={getHandleChange(setUsername)} value={username} type="text" />
+          <input onChange={getHandleChange(setUsername)} value={username} type="text" required />
         </label>
         <label>
           Password
-          <input onChange={getHandleChange(setPassword)} value={password} type="password" />
+          <input onChange={getHandleChange(setPassword)} value={password} type="password" required />
         </label>
 
         <button>Login</button>

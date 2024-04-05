@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 const baseUrl = '/api/login'
-const token = null
 
 /**
  * Login service

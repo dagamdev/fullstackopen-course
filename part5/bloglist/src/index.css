@@ -10,3 +10,7 @@ label, input {
 button, input {
   margin-block: 4px;
 }
+
+p {
+  margin: 0;
+}

@@ -1,9 +1,50 @@
-export default function BlogForm () {
+import { useState } from 'react'
+import blogService from '../services/blogs'
+
+export default function BlogForm ({ setBlogs }) {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
+    try {
+      const newBlog = await blogService.create({ title, author, url })
+
+      setBlogs(bs => [...bs, newBlog])
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const getHandleChange = (setState) => {
+    return ({ currentTarget }) => setState(currentTarget.value)
+  }
+
   return (
     <>
-      <h2>Create a blog</h2>
+      <h2>Create new blog</h2>
 
-      <form></form>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Title
+          <input onChange={getHandleChange(setTitle)} value={title} type="text" required />
+        </label>
+        <label>
+          Author
+          <input onChange={getHandleChange(setAuthor)} value={author} type="text" required />
+        </label>
+        <label>
+          URL
+          <input onChange={getHandleChange(setUrl)} value={url} type="url" required />
+        </label>
+
+        <button>Create</button>
+      </form>
     </>
   )
 }
