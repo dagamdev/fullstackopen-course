@@ -1,21 +1,20 @@
 /**
- * @typedef {Object} APPNotifi
+ * @typedef {Object} Notifi
  * @property {'success' | 'error'} type - Type of notification
  * @property {string} message - Message of notification
  */
 
 /**
  * @typedef {{name: string, username: string, token: string}} UserSession
+ * @typedef {{id: string, title: string, author: string, url: string, likes: number}} Blog
  */
 
 /**
- * @typedef {APPNotifi | null} NotifiState
+ * @typedef {Notifi | null} NotifiState
+ * @typedef {UserSession | null} UserState
  */
 
 /**
- * @typedef {import("react").Dispatch<import("react").SetStateAction<UserSession>>} SetUser
- */
-
-/**
- * @typedef {import("react").Dispatch<import("react").SetStateAction<NotifiState>>} SetNotifi
+ * @template T
+ * @typedef {import("react").Dispatch<import("react").SetStateAction<T>>} SetState
  */

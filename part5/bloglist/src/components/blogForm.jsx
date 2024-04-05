@@ -3,7 +3,7 @@ import blogService from '../services/blogs'
 
 /**
  * Blog form component
- * @param {{setBlogs: () => void, setNotification: SetNotifi}} param0 props
+ * @param {{setBlogs: () => void, setNotification: SetState<Notifi>}} param0 props
  * @returns JSX
  */
 export default function BlogForm ({ setBlogs, setNotification }) {

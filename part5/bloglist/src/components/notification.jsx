@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 /**
  * Notification component
- * @param {{ notification: NotifiState, setNotification: SetNotifi }} param0 props
+ * @param {{ notification: NotifiState, setNotification: SetState<NotifiState> }} param0 props
  * @returns JSX
  */
 export default function Notification ({ notification, setNotification }) {

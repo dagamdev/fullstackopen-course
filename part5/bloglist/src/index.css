@@ -11,6 +11,10 @@ button, input {
   margin-block: 4px;
 }
 
+button {
+  cursor: pointer;
+}
+
 p {
   margin: 0;
 }
@@ -31,4 +35,22 @@ p {
     border-color: red;
     background-color: rgba(255, 0, 0, 0.3);
   }
+}
+
+ul {
+  padding: 0;
+  display: grid;
+  row-gap: 16px;
+  list-style: none;
+  margin-block: 8px;
+
+  h3 {
+    margin: 0;
+  }
+}
+
+li {
+  border: solid 2px gray;
+  padding: 8px 16px;
+  border-radius: 8px;
 }

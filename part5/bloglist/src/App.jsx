@@ -10,12 +10,12 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
 
   /**
-   * @type {[name: UserSession, setUser: SetUser]}
+   * @type {[name: UserState, setUser: SetState<UserState>]}
    */
   const [user, setUser] = useState(null)
 
   /**
-   * @type {[NotifiState, SetNotifi]}
+   * @type {[NotifiState, SetState<NotifiState>]}
    */
 
   const [notification, setNotification] = useState(null)
@@ -66,9 +66,11 @@ const App = () => {
             <BlogForm setBlogs={setBlogs} setNotification={setNotification} />
           </Toggleable>
 
-          {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
-          )}
+          <ul>
+            {blogs.map(blog =>
+              <Blog key={blog.id} blog={blog} />
+            )}
+          </ul>
         </>
         : <LoginForm setUser={setUser} setNotification={setNotification} />
       }

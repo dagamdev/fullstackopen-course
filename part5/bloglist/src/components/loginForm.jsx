@@ -4,7 +4,7 @@ import blogService from '../services/blogs'
 
 /**
  * Login user component
- * @param {{setUser: () => void, setNotification: SetNotifi}} param0 props
+ * @param {{setUser: () => void, setNotification: SetState<Notifi>}} param0 props
  * @returns JSX
  */
 export default function LoginForm ({ setUser, setNotification }) {
