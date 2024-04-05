@@ -5,7 +5,15 @@
  */
 
 /**
+ * @typedef {{name: string, username: string, token: string}} UserSession
+ */
+
+/**
  * @typedef {APPNotifi | null} NotifiState
+ */
+
+/**
+ * @typedef {import("react").Dispatch<import("react").SetStateAction<UserSession>>} SetUser
  */
 
 /**

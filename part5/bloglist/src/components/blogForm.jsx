@@ -39,25 +39,22 @@ export default function BlogForm ({ setBlogs, setNotification }) {
   }
 
   return (
-    <>
-      <h2>Create new blog</h2>
+    <form onSubmit={handleSubmit}>
+        <h2>Create new blog</h2>
+      <label>
+        Title
+        <input onChange={getHandleChange(setTitle)} value={title} type="text" required />
+      </label>
+      <label>
+        Author
+        <input onChange={getHandleChange(setAuthor)} value={author} type="text" required />
+      </label>
+      <label>
+        URL
+        <input onChange={getHandleChange(setUrl)} value={url} type="url" required />
+      </label>
 
-      <form onSubmit={handleSubmit}>
-        <label>
-          Title
-          <input onChange={getHandleChange(setTitle)} value={title} type="text" required />
-        </label>
-        <label>
-          Author
-          <input onChange={getHandleChange(setAuthor)} value={author} type="text" required />
-        </label>
-        <label>
-          URL
-          <input onChange={getHandleChange(setUrl)} value={url} type="url" required />
-        </label>
-
-        <button>Create</button>
-      </form>
-    </>
+      <button>Create</button>
+    </form>
   )
 }

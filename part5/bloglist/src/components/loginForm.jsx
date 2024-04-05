@@ -41,21 +41,19 @@ export default function LoginForm ({ setUser, setNotification }) {
   }
 
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <h2>Login in to application</h2>
 
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username
-          <input onChange={getHandleChange(setUsername)} value={username} type="text" required />
-        </label>
-        <label>
-          Password
-          <input onChange={getHandleChange(setPassword)} value={password} type="password" required />
-        </label>
+      <label>
+        Username
+        <input onChange={getHandleChange(setUsername)} value={username} type="text" required />
+      </label>
+      <label>
+        Password
+        <input onChange={getHandleChange(setPassword)} value={password} type="password" required />
+      </label>
 
-        <button>Login</button>
-      </form>
-    </>
+      <button>Login</button>
+    </form>
   )
 }

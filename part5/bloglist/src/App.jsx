@@ -4,14 +4,20 @@ import blogService from './services/blogs'
 import LoginForm from './components/loginForm'
 import BlogForm from './components/blogForm'
 import Notification from './components/notification'
+import Toggleable from './components/toggleable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+
+  /**
+   * @type {[name: UserSession, setUser: SetUser]}
+   */
   const [user, setUser] = useState(null)
 
   /**
    * @type {[NotifiState, SetNotifi]}
    */
+
   const [notification, setNotification] = useState(null)
 
   useEffect(() => {
@@ -56,7 +62,9 @@ const App = () => {
             <button onClick={logout}>Logout</button>
           </div>
 
-          <BlogForm setBlogs={setBlogs} setNotification={setNotification} />
+          <Toggleable visible={false} buttonLabel='Create new blog' >
+            <BlogForm setBlogs={setBlogs} setNotification={setNotification} />
+          </Toggleable>
 
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
