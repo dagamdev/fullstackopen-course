@@ -3,10 +3,10 @@ import blogService from '../services/blogs'
 
 /**
  * Blog component
- * @param {{blog: Blog, setBlogs: SetState<Blog[]>}} param0 props
+ * @param {{blog: Blog, setBlogs: SetState<Blog[]>, username: string}} param0 props
  * @returns JSX
  */
-export default function Blog ({ blog, setBlogs }) {
+export default function Blog ({ blog, setBlogs, username }) {
   const [showAll, setShowAll] = useState(false)
 
   const toggleShowAll = () => {
@@ -19,9 +19,20 @@ export default function Blog ({ blog, setBlogs }) {
         likes: blog.likes + 1
       })
 
-      console.log(updatedBlog)
-
       setBlogs(bs => bs.map(b => b.id === blog.id ? updatedBlog : b))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const deleteBlog = async () => {
+    const confirm = window.confirm(`Are you sure you want to delete the ${blog.title} blog?`)
+    if (!confirm) return
+
+    try {
+      await blogService.delete(blog.id)
+
+      setBlogs(bs => bs.filter(b => b.id !== blog.id))
     } catch (error) {
       console.error(error)
     }
@@ -39,6 +50,7 @@ export default function Blog ({ blog, setBlogs }) {
           <button onClick={addLike}>Like</button>
         </div>
         <p>{blog.author}</p>
+        {username === blog.user?.username && <button onClick={deleteBlog}>Delete</button>}
       </div>}
     </li>
   )

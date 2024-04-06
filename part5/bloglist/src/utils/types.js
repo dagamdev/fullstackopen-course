@@ -6,7 +6,8 @@
 
 /**
  * @typedef {{name: string, username: string, token: string}} UserSession
- * @typedef {{id: string, title: string, author: string, url: string, likes: number}} Blog
+ * @typedef {{name: string, username: string, id: string}} User
+ * @typedef {{id: string, title: string, author: string, url: string, likes: number, user?: User}} Blog
  */
 
 /**
