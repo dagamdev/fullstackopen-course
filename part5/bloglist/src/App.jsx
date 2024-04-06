@@ -75,7 +75,9 @@ const App = () => {
             )}
           </ul>
         </>
-        : <LoginForm setUser={setUser} setNotification={setNotification} />
+        : <Toggleable buttonLabel='Login'>
+          <LoginForm setUser={setUser} setNotification={setNotification} />
+        </Toggleable>
       }
     </div>
   )

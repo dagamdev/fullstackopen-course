@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 /**
  * Toggleable component
@@ -18,4 +19,9 @@ export default function Toggleable ({ visible: defaultVisible, buttonLabel, chil
       <button onClick={toggleVisible}>{visible ? 'Cancel' : buttonLabel}</button>
     </div>
   )
+}
+
+Toggleable.propTypes = {
+  visible: PropTypes.func.isRequired,
+  buttonLabel: PropTypes.func.isRequired
 }
