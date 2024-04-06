@@ -68,6 +68,27 @@ const App = () => {
     }
   }
 
+  /** @param {Omit<Blog, 'user' | 'id' | 'likes'>} blogData */
+  const createBlog = async (blogData) => {
+    try {
+      const newBlog = await blogService.create(blogData)
+
+      console.log({ newBlog })
+
+      setBlogs(bs => [...bs, newBlog])
+      setNotification({
+        type: 'success',
+        message: `A new ${blogData.author} blog has been created`
+      })
+    } catch (error) {
+      console.error(error)
+      setNotification({
+        type: 'error',
+        message: error.response.data.error
+      })
+    }
+  }
+
   return (
     <div>
       {notification && <Notification notification={notification} setNotification={setNotification} />}
@@ -81,7 +102,7 @@ const App = () => {
           </div>
 
           <Toggleable buttonLabel='Create new blog' >
-            <BlogForm setBlogs={setBlogs} setNotification={setNotification} />
+            <BlogForm createBlog={createBlog} />
           </Toggleable>
 
           <ul>

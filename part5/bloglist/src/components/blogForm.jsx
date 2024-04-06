@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
 
 /**
  * Blog form component
- * @param {{setBlogs: () => void, setNotification: SetState<Notifi>}} param0 props
+ * @param {{createBlog: (blogData: Omit<Blog, 'user' | 'id' | 'likes'>) => Promise<void>}} param0 props
  * @returns JSX
  */
-export default function BlogForm ({ setBlogs, setNotification }) {
+export default function BlogForm ({ createBlog }) {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -15,24 +14,13 @@ export default function BlogForm ({ setBlogs, setNotification }) {
     event.preventDefault()
 
     try {
-      const newBlog = await blogService.create({ title, author, url })
+      await createBlog({ title, author, url })
 
-      console.log({ newBlog })
-
-      setBlogs(bs => [...bs, newBlog])
       setTitle('')
       setAuthor('')
       setUrl('')
-      setNotification({
-        type: 'success',
-        message: `A new ${author} blog has been created`
-      })
     } catch (error) {
       console.error(error)
-      setNotification({
-        type: 'error',
-        message: error.response.data.error
-      })
     }
   }
 
@@ -45,15 +33,21 @@ export default function BlogForm ({ setBlogs, setNotification }) {
         <h2>Create new blog</h2>
       <label>
         Title
-        <input onChange={getHandleChange(setTitle)} value={title} type="text" required />
+        <input onChange={getHandleChange(setTitle)} value={title}
+          placeholder='Blog title...' type="text" required
+        />
       </label>
       <label>
         Author
-        <input onChange={getHandleChange(setAuthor)} value={author} type="text" required />
+        <input onChange={getHandleChange(setAuthor)} value={author}
+          placeholder='Blog author...' type="text" required
+        />
       </label>
       <label>
         URL
-        <input onChange={getHandleChange(setUrl)} value={url} type="url" required />
+        <input onChange={getHandleChange(setUrl)} value={url}
+          placeholder='Blog URL...' type="url" required
+        />
       </label>
 
       <button>Create</button>
