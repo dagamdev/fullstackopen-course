@@ -7,6 +7,9 @@ import Notification from './components/notification'
 import Toggleable from './components/toggleable'
 
 const App = () => {
+  /**
+   * @type {[Blog[], SetState<Blog[]>]}
+   */
   const [blogs, setBlogs] = useState([])
 
   /**
@@ -67,7 +70,7 @@ const App = () => {
           </Toggleable>
 
           <ul>
-            {blogs.map(blog =>
+            {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
               <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
             )}
           </ul>
