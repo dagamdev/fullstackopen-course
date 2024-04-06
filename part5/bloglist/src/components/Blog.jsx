@@ -61,7 +61,7 @@ export default function Blog ({ blog, setBlogs, username }) {
 }
 
 Blog.propTypes = {
-  blog: PropTypes.func.isRequired,
+  blog: PropTypes.object.isRequired,
   setBlogs: PropTypes.func.isRequired,
-  username: PropTypes.func.isRequired
+  username: PropTypes.string.isRequired
 }

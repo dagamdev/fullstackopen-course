@@ -22,5 +22,5 @@ export default function Toggleable ({ buttonLabel, children }) {
 }
 
 Toggleable.propTypes = {
-  buttonLabel: PropTypes.func.isRequired
+  buttonLabel: PropTypes.string.isRequired
 }
