@@ -26,11 +26,16 @@ const setToken = userSession => {
  */
 const create = async (newBlogData) => {
   const res = await axios.post(baseUrl, newBlogData, {
-    headers: {
-      Authorization: token
-    }
+    headers: { Authorization: token }
   })
   return res.data
 }
 
-export default { getAll, setToken, create }
+const update = async (blogId, updatedData) => {
+  const res = await axios.patch(`${baseUrl}/${blogId}`, updatedData, {
+    headers: { Authorization: token }
+  })
+  return res.data
+}
+
+export default { getAll, setToken, create, update }

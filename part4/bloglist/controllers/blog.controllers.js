@@ -83,7 +83,7 @@ router.route('/:id')
       next(error)
     }
   })
-  .patch(async (req, res, next) => {
+  .patch(middlewares.userExtractor, async (req, res, next) => {
     try {
       const { id } = req.params
       const { title, author, url, likes } = req.body
