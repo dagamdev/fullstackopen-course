@@ -65,7 +65,7 @@ const App = () => {
             <button onClick={logout}>Logout</button>
           </div>
 
-          <Toggleable visible={false} buttonLabel='Create new blog' >
+          <Toggleable buttonLabel='Create new blog' >
             <BlogForm setBlogs={setBlogs} setNotification={setNotification} />
           </Toggleable>
 

@@ -8,9 +8,7 @@
  * @typedef {{name: string, username: string, token: string}} UserSession
  * @typedef {{name: string, username: string, id: string}} User
  * @typedef {{id: string, title: string, author: string, url: string, likes: number, user?: User}} Blog
- */
-
-/**
+ *
  * @typedef {Notifi | null} NotifiState
  * @typedef {UserSession | null} UserState
  */

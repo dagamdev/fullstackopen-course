@@ -17,6 +17,8 @@ export default function BlogForm ({ setBlogs, setNotification }) {
     try {
       const newBlog = await blogService.create({ title, author, url })
 
+      console.log({ newBlog })
+
       setBlogs(bs => [...bs, newBlog])
       setTitle('')
       setAuthor('')

@@ -41,16 +41,19 @@ export default function Blog ({ blog, setBlogs, username }) {
 
   return (
     <li>
-      <h3>{blog.title}</h3>
+      <div>
+        <h3>{blog.title}</h3>
+        <strong>{blog.author}</strong>
+      </div>
       <button onClick={toggleShowAll}>{showAll ? 'Hide' : 'Show'}</button>
 
-      {showAll && <div>
+      {showAll && <div className='info'>
         <a href={blog.url} target='_blank' rel="noreferrer">Blog url</a>
         <div>
           <p>Likes {blog.likes}</p>
           <button onClick={addLike}>Like</button>
         </div>
-        <p>{blog.author}</p>
+        {blog.user && <p>{blog.user.name}</p>}
         {username === blog.user?.username && <button onClick={deleteBlog}>Delete</button>}
       </div>}
     </li>

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 
 /**
  * Toggleable component
- * @param {{visible: boolean, toggleVisible: () => void, buttonLabel: string, children: import('react').ReactNode}} param0 props
+ * @param {{buttonLabel: string, children: import('react').ReactNode}} param0 props
  * @returns JSX
  */
-export default function Toggleable ({ visible: defaultVisible, buttonLabel, children }) {
-  const [visible, setVisible] = useState(defaultVisible)
+export default function Toggleable ({ buttonLabel, children }) {
+  const [visible, setVisible] = useState(false)
 
   const toggleVisible = () => {
     setVisible(v => !v)
@@ -22,6 +22,5 @@ export default function Toggleable ({ visible: defaultVisible, buttonLabel, chil
 }
 
 Toggleable.propTypes = {
-  visible: PropTypes.func.isRequired,
   buttonLabel: PropTypes.func.isRequired
 }
