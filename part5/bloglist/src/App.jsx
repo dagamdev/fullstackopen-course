@@ -53,6 +53,21 @@ const App = () => {
     localStorage.removeItem('userSession')
   }
 
+  /** @param {Blog} blog */
+  const addBlogLike = (blog) => {
+    return async () => {
+      try {
+        const updatedBlog = await blogService.update(blog.id, {
+          likes: blog.likes + 1
+        })
+
+        setBlogs(bs => bs.map(b => b.id === blog.id ? updatedBlog : b))
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }
+
   return (
     <div>
       {notification && <Notification notification={notification} setNotification={setNotification} />}
@@ -71,7 +86,7 @@ const App = () => {
 
           <ul>
             {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-              <Blog key={blog.id} blog={blog} setBlogs={setBlogs} username={user.username} />
+              <Blog key={blog.id} blog={blog} setBlogs={setBlogs} username={user.username} addLike={addBlogLike(blog)} />
             )}
           </ul>
         </>

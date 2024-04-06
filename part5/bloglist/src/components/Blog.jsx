@@ -4,26 +4,14 @@ import PropTypes from 'prop-types'
 
 /**
  * Blog component
- * @param {{blog: Blog, setBlogs: SetState<Blog[]>, username: string}} param0 props
+ * @param {{blog: Blog, setBlogs: SetState<Blog[]>, username: string, addLike: () => void}} param0 props
  * @returns JSX
  */
-export default function Blog ({ blog, setBlogs, username }) {
+export default function Blog ({ blog, setBlogs, username, addLike }) {
   const [showAll, setShowAll] = useState(false)
 
   const toggleShowAll = () => {
     setShowAll(s => !s)
-  }
-
-  const addLike = async () => {
-    try {
-      const updatedBlog = await blogService.update(blog.id, {
-        likes: blog.likes + 1
-      })
-
-      setBlogs(bs => bs.map(b => b.id === blog.id ? updatedBlog : b))
-    } catch (error) {
-      console.error(error)
-    }
   }
 
   const deleteBlog = async () => {
@@ -51,7 +39,7 @@ export default function Blog ({ blog, setBlogs, username }) {
         <a href={blog.url} target='_blank' rel="noreferrer">Blog url</a>
         <div>
           <p>Likes {blog.likes}</p>
-          <button onClick={addLike}>Like</button>
+          <button className='addLike' onClick={addLike}>Like</button>
         </div>
         {blog.user && <p>{blog.user.name}</p>}
         {username === blog.user?.username && <button onClick={deleteBlog}>Delete</button>}
@@ -63,5 +51,6 @@ export default function Blog ({ blog, setBlogs, username }) {
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   setBlogs: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired
+  username: PropTypes.string.isRequired,
+  addLike: PropTypes.func.isRequired
 }
