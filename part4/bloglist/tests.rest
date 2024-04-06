@@ -25,9 +25,9 @@ POST http://localhost:321/api/users
 Content-Type: application/json
 
 {
-  "name": "Miguel Angel Duran Garcia",
-  "username": "midudev",
-  "password": "midudev"
+  "name": "David Garcia Amador",
+  "username": "dagamdev",
+  "password": "dagampass"
 }
 
 ###

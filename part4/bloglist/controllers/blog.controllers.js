@@ -28,7 +28,14 @@ router.route('/')
       user.blogs.push(newBlog)
       await user.save()
 
-      res.status(201).json(newBlog)
+      res.status(201).json({
+        ...newBlog.toJSON(),
+        user: {
+          id: user.id,
+          name: user.name,
+          username: user.username
+        }
+      })
     } catch (error) {
       next(error)
     }
