@@ -81,13 +81,36 @@ describe('Blog app', function() {
         cy.get('@likes').should('contain', 'Likes 1')
       })
 
-      it.only('Delete blog', function () {
+      it('Delete blog', function () {
         cy.on('window:confirm', () => true)
 
         cy.get('@blog').find('button').click()
         cy.get('@blog').find('button').eq(2).click()
 
         cy.contains(mockBlog.title).should('not.exist')
+      })
+
+      it.only('Only creator can see delete button for a blog', function () {
+        const mock2User = {
+          username: 'Angular',
+          password: 'angular.io'
+        }
+        cy.createUser(mock2User)
+        cy.login(mock2User)
+        const mock2Blog = {
+          title: 'The Angular framework',
+          author: 'Angular.io',
+          url: 'https://angular.io'
+        }
+        cy.createBlog(mock2Blog)
+        cy.visit('')
+
+        cy.get('@blog').find('button').click()
+        cy.get('@blog').contains('Delete').should('not.exist')
+
+        cy.contains(mock2Blog.title).parents().eq(1).as('secondBlog')
+        cy.get('@secondBlog').find('button').click()
+        cy.get('@secondBlog').contains('Delete').should('exist')
       })
     })
   })
