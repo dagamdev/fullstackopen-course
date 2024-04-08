@@ -29,6 +29,21 @@ Cypress.Commands.add('login', ({ username, password }) => {
     username, password
   }).then(({ body }) => {
     localStorage.setItem('userSession', JSON.stringify(body))
-    cy.visit('')
+  })
+})
+
+Cypress.Commands.add('createBlog', ({title, author, url}) => {
+  const userSession = localStorage.getItem('userSession')
+
+  if (!userSession) return
+  const user = JSON.parse(userSession)
+
+  cy.request({
+    method: 'POST', 
+    url: `${Cypress.env('API')}blogs`,
+    body: {title, author, url},
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
   })
 })

@@ -49,10 +49,8 @@ describe('Blog app', function() {
 
   describe('When logged in', function() {
     beforeEach(function() {
-      cy.login({
-        username: mockUser.username,
-        password: mockUser.password
-      })
+      cy.login(mockUser)
+      cy.visit('')
     })
 
     it('A blog can be created', function() {
@@ -66,6 +64,23 @@ describe('Blog app', function() {
       cy.get('.notification').should('contain', `A new ${mockBlog.author} blog has been created`).should('have.css', 'background-color', 'rgba(0, 128, 0, 0.3)')
 
       cy.contains(mockBlog.title).parent().should('contain', mockBlog.author)
+    })
+    
+    describe('When a user blog', function () {
+      this.beforeEach(() => {
+        cy.createBlog(mockBlog)
+        cy.visit('')
+      })
+      
+      it.only('Add loke to a blog', function () {
+        cy.contains(mockBlog.title).parents().eq(1).as('blog')
+
+        cy.get('@blog').find('button').click()
+        cy.get('@blog').find('p').as('likes')
+        cy.get('@likes').should('contain', 'Likes 0')
+        cy.get('@blog').find('button').eq(1).click()
+        cy.get('@likes').should('contain', 'Likes 1')
+      })
     })
   })
 })
