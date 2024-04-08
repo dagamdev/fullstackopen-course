@@ -70,16 +70,24 @@ describe('Blog app', function() {
       this.beforeEach(() => {
         cy.createBlog(mockBlog)
         cy.visit('')
+        cy.contains(mockBlog.title).parents().eq(1).as('blog')
       })
       
-      it.only('Add loke to a blog', function () {
-        cy.contains(mockBlog.title).parents().eq(1).as('blog')
-
+      it('Add loke to a blog', function () {
         cy.get('@blog').find('button').click()
         cy.get('@blog').find('p').as('likes')
         cy.get('@likes').should('contain', 'Likes 0')
         cy.get('@blog').find('button').eq(1).click()
         cy.get('@likes').should('contain', 'Likes 1')
+      })
+
+      it.only('Delete blog', function () {
+        cy.on('window:confirm', () => true)
+
+        cy.get('@blog').find('button').click()
+        cy.get('@blog').find('button').eq(2).click()
+
+        cy.contains(mockBlog.title).should('not.exist')
       })
     })
   })
