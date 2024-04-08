@@ -12,7 +12,7 @@ describe('Blog app', function() {
 
   beforeEach(function() {
     cy.request('POST', `${apiEndpoint}testing/reset`)
-    cy.request('POST', `${apiEndpoint}users`, mockUser)
+    cy.createUser(mockUser)
     cy.visit('')
     cy.contains('Login').as('loginButton')
   })
@@ -67,13 +67,19 @@ describe('Blog app', function() {
     })
     
     describe('When a user blog', function () {
+      const mock2Blog = {
+        title: 'The Angular framework',
+        author: 'Angular.io',
+        url: 'https://angular.io'
+      }
+
       this.beforeEach(() => {
         cy.createBlog(mockBlog)
         cy.visit('')
         cy.contains(mockBlog.title).parents().eq(1).as('blog')
       })
       
-      it('Add loke to a blog', function () {
+      it('Add like to a blog', function () {
         cy.get('@blog').find('button').click()
         cy.get('@blog').find('p').as('likes')
         cy.get('@likes').should('contain', 'Likes 0')
@@ -90,18 +96,13 @@ describe('Blog app', function() {
         cy.contains(mockBlog.title).should('not.exist')
       })
 
-      it.only('Only creator can see delete button for a blog', function () {
+      it('Only creator can see delete button for a blog', function () {
         const mock2User = {
           username: 'Angular',
           password: 'angular.io'
         }
         cy.createUser(mock2User)
         cy.login(mock2User)
-        const mock2Blog = {
-          title: 'The Angular framework',
-          author: 'Angular.io',
-          url: 'https://angular.io'
-        }
         cy.createBlog(mock2Blog)
         cy.visit('')
 
@@ -111,6 +112,24 @@ describe('Blog app', function() {
         cy.contains(mock2Blog.title).parents().eq(1).as('secondBlog')
         cy.get('@secondBlog').find('button').click()
         cy.get('@secondBlog').contains('Delete').should('exist')
+      })
+
+      it.only('Verify blogs are sorted by likes, with the most liked blog first', function () {
+        cy.createBlog(mock2Blog)
+        cy.visit('')
+
+        cy.get('@blog').find('button').click()
+        cy.get('@blog').find('button').eq(1).click()
+
+        cy.contains(mock2Blog.title).parents().eq(1).as('newBlog')
+        cy.get('@newBlog').find('button').click()
+        cy.get('@newBlog').find('button').eq(1).as('addLike')
+        cy.get('@addLike').click()
+        cy.wait(1000)
+        cy.get('@addLike').click()
+        
+
+        cy.get('li').first().contains(mock2Blog.title)
       })
     })
   })
