@@ -94,7 +94,7 @@ const App = () => {
       {notification && <Notification notification={notification} setNotification={setNotification} />}
       {user
         ? <>
-          <h2>Blogs</h2>
+          <h2>Blogs app</h2>
 
           <div className='session'>
             <p>{user.name} logged in</p>

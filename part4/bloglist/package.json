@@ -5,6 +5,7 @@
   "main": "indext.js",
   "scripts": {
     "start": "node .",
+    "start:test": "cross-env NODE_ENV=test node .",
     "dev": "cross-env NODE_ENV=dev nodemon .",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "lint": "eslint ."
