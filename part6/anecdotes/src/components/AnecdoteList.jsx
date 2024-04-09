@@ -3,7 +3,10 @@ import { addVote } from '../reducers/anecdoteReducer'
 
 export default function AnecdoteList () {
   /** @type {Anecdote[]} */
-  const anecdotes = useSelector(({anecdotes, filter}) => anecdotes.filter(a => a.content.toLowerCase().includes(filter)))
+  const anecdotes = useSelector(({anecdotes, filter}) => {
+    console.log({anecdotes, filter})
+    return anecdotes.filter(a => a.content.toLowerCase().includes(filter))
+  })
   /** @type {AnecdoteDispatch} */
   const dispatch = useDispatch()
 
