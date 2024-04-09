@@ -38,7 +38,7 @@ const toSort = (a, b) => b.votes - a.votes
  * @param {AnecdoteAction} action
  * @returns {Anecdote[]}
  */
-const reducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
 
   switch (action.type) {
     case 'VOTE': {
@@ -55,4 +55,20 @@ const reducer = (state = initialState, action) => {
   return state
 }
 
-export default reducer
+/**
+ * @param {string} id 
+ * @returns {AnecdoteState}
+ */
+export const addVote = (id) => ({
+  type: 'VOTE',
+  payload: {id}
+})
+
+/**
+ * @param {string} content
+ * @returns {AnecdoteState}
+ */
+export const createAnecdote = (content) => ({
+  type: 'ADD',
+  payload: {content}
+})
