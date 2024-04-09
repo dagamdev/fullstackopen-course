@@ -1,7 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux'
 
 const App = () => {
+  /** @type {Anecdote[]} */
   const anecdotes = useSelector(state => state)
+  /** @type {AnecdoteDispatch} */
   const dispatch = useDispatch()
 
   const vote = (id) => {

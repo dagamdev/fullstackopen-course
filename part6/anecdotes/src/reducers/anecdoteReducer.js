@@ -25,9 +25,17 @@ const asObject = (anecdote) => {
 const initialState = anecdotesAtStart.map(asObject)
 
 /**
+ * Sort the anecdotes in descending order by votes
+ * @param {Anecdote} a 
+ * @param {Anecdote} b 
+ * @returns {Anecdote[]} 
+ */
+const toSort = (a, b) => b.votes - a.votes
+
+/**
  * 
  * @param {Anecdote[]} state
- * @param {{type: 'VOTE' | 'ADD', payload: Partial<Anecdote>} action
+ * @param {AnecdoteAction} action
  * @returns {Anecdote[]}
  */
 const reducer = (state = initialState, action) => {
@@ -37,10 +45,10 @@ const reducer = (state = initialState, action) => {
       const anecdote = state.find(a => a.id === action.payload.id)
       anecdote.votes++
 
-      return state.map(a => a.id === action.payload.id ? anecdote : a)
+      return state.map(a => a.id === action.payload.id ? anecdote : a).sort(toSort)
     }
     case 'ADD': {
-      return [...state, asObject(action.payload.content)]
+      return [...state, asObject(action.payload.content)].sort(toSort)
     }
   }
 
