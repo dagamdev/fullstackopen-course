@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setNotification } from '../reducers/notificationReducer'
+import { deleteNotification } from '../reducers/notificationReducer'
 
 export default function Notification () {
   const notification = useSelector(({notification}) => notification)
@@ -8,13 +8,13 @@ export default function Notification () {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      dispatch(setNotification(null))
+      dispatch(deleteNotification())
     }, 5_000)
 
     return () => {
       clearTimeout(timeout)
     }
-  }, [dispatch])
+  }, [notification, dispatch])
 
   const style = {
     border: 'solid',
