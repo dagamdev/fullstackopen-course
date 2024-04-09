@@ -8,6 +8,17 @@ const App = () => {
     dispatch({type: 'VOTE', payload: {id}})
   }
 
+  /**
+   * @param {import('react').FormEvent<HTMLFormElement>} event submit event
+   */
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    
+    const content = event.target.anecdote.value
+    dispatch({type: 'ADD', payload: {content}})
+    event.target.anecdote.value = ''
+  }
+
   return (
     <div>
       <h2>Anecdotes</h2>
@@ -23,8 +34,8 @@ const App = () => {
         </div>
       )}
       <h2>create new</h2>
-      <form>
-        <div><input /></div>
+      <form onSubmit={handleSubmit}>
+        <div><input name='anecdote' type='text' /></div>
         <button>create</button>
       </form>
     </div>

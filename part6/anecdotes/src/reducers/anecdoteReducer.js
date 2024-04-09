@@ -27,7 +27,7 @@ const initialState = anecdotesAtStart.map(asObject)
 /**
  * 
  * @param {Anecdote[]} state
- * @param {{type: 'VOTE', payload: {id: string}} action
+ * @param {{type: 'VOTE' | 'ADD', payload: Partial<Anecdote>} action
  * @returns {Anecdote[]}
  */
 const reducer = (state = initialState, action) => {
@@ -38,6 +38,9 @@ const reducer = (state = initialState, action) => {
       anecdote.votes++
 
       return state.map(a => a.id === action.payload.id ? anecdote : a)
+    }
+    case 'ADD': {
+      return [...state, asObject(action.payload.content)]
     }
   }
 
