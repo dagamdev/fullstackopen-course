@@ -8,6 +8,15 @@
 /** 
  * @typedef {'VOTE' | 'ADD'} AnecdoteState
  * @typedef {{type: AnecdoteState, payload: Partial<Anecdote>}} AnecdoteAction
+ * @typedef {{type: 'SET_FILTER', payload: string}} FilterAction
 */
 
-/** @typedef {import("redux").Dispatch<{type: AnecdoteState, payload: Partial<Anecdote>}>} AnecdoteDispatch */
+/**
+ * @template T
+ * @typedef {import("redux").Dispatch<T>} SetDispatch
+ */
+
+/**
+ * @typedef {SetDispatch<AnecdoteAction>} AnecdoteDispatch 
+ * @typedef {SetDispatch<FilterAction>} FilterDispatch
+ */

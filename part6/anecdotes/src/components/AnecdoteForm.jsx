@@ -18,8 +18,8 @@ export default function AnecdoteForm () {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>create new</h2>
-      <div><input name='anecdote' type='text' /></div>
+      <h2>Create new</h2>
+      <input name='anecdote' type='text' />
       <button>create</button>
     </form>
   )
