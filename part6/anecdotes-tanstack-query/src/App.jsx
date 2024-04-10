@@ -29,8 +29,6 @@ const App = () => {
     retry: false
   })
 
-  console.log(anecdotes)
-
   return (
     <div>
       <h3>Anecdote app</h3>

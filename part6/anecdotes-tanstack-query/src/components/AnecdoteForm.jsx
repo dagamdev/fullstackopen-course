@@ -4,15 +4,17 @@ import { useNotification } from '../hooks/useNotification'
 
 const AnecdoteForm = () => {
   const queryClient = useQueryClient()
+  const notificationDispatch = useNotification()[1]
 
   const newAnecdoteMutation = useMutation({
     mutationFn: createAnecdote,
     onSuccess: () => {
       queryClient.invalidateQueries('anecdotes')
+    },
+    onError: () => {
+      notificationDispatch({type: 'CREATE', payload: 'Too short anecdote, must have length 5 or more'})
     }
   })
-
-  const notificationDispatch = useNotification()[1]
 
   const onCreate = (event) => {
     event.preventDefault()
