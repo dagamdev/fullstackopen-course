@@ -34,6 +34,11 @@
       "id": "92f1",
       "content": "Anecdota creada",
       "votes": 0
+    },
+    {
+      "id": "cbe6",
+      "content": "New anecdote created in development",
+      "votes": 0
     }
   ]
 }
