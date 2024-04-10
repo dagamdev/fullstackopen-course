@@ -36,7 +36,7 @@ const toSort = (a, b) => b.votes - a.votes
 
 const anecdoteSlice = createSlice({
   name: 'anecdotes',
-  initialState,
+  initialState: [],
   reducers: {
     addVote (state, action) {
       return state.map(a => a.id === action.payload ? {...a, votes: a.votes + 1} : a).sort(toSort)
@@ -44,9 +44,12 @@ const anecdoteSlice = createSlice({
     createAnecdote (state, action) {
       state.push(asObject(action.payload))
       state.sort(toSort)
+    },
+    setAnecdotes (state, action) {
+      return action.payload
     }
   }
 })
 
-export const { addVote, createAnecdote } = anecdoteSlice.actions
+export const { addVote, createAnecdote, setAnecdotes } = anecdoteSlice.actions
 export default anecdoteSlice.reducer
