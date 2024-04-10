@@ -17,5 +17,14 @@ export default {
       votes: 0
     })
     return res.data
+  },
+
+  /**
+   * @param {string} id
+   * @param {Partial<Omit<Anecdote, 'id'>>} data
+   */
+  async update (id, data) {
+    const res = await axios.patch(`${baseUrl}/${id}`, data)
+    return res.data
   }
 }
