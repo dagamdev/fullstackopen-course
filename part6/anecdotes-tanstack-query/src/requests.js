@@ -12,3 +12,7 @@ export async function createAnecdote (content) {
     votes: 0
   })
 }
+
+export async function updateAnecdote (anecdote) {
+  return axios.put(`${baseUrl}/${anecdote.id}`, anecdote).then(res => res.data)
+}
