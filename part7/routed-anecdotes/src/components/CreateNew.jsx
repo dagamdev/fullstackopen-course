@@ -1,15 +1,16 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 /**
  * 
- * @param {{addNew: (anecdote: Omit<Anecdote, 'id'>) => void}} param0 
+ * @param {{addNew: (anecdote: Omit<Anecdote, 'id'>) => void, addNotification: (notification: string) => void}} param0 
  * @returns 
  */
-export default function CreateNew ({ addNew }) {
+export default function CreateNew ({ addNew, addNotification }) {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
-
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -19,6 +20,8 @@ export default function CreateNew ({ addNew }) {
       info,
       votes: 0
     })
+    addNotification(`New anecdote '${content}' created!`)
+    navigate('/')
   }
 
   return (
