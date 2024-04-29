@@ -9,7 +9,7 @@ export default function Anecdote ({ anecdote }) {
 
       <p>Has {anecdote.votes} votes</p>
 
-      <p>For more info see <a href={anecdote.info}>{anecdote.info}</a></p>
+      <p>For more info see <a href={anecdote.info} target="_blank" rel="noreferrer">{anecdote.info}</a></p>
     </section>
   )
 }

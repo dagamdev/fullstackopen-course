@@ -1,9 +1,11 @@
 export default function Footer () {
+  const repoUrl = 'https://github.com/dagamdev/fullstackopen-course/tree/main/part7/routed-anecdotes'
+
   return (
     <footer>
-      Anecdote app for <a href='https://fullstackopen.com/'>Full Stack Open</a>.
+      Anecdote app for Dagamdev.
 
-      See <a href='https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js</a> for the source code.
+      See <a href={repoUrl} target="_blank" rel="noreferrer">{repoUrl}</a> for the source code.
     </footer>
   )
 }
