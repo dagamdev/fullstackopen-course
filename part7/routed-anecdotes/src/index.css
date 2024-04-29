@@ -72,3 +72,21 @@ footer {
   margin-top: 64px;
   border-radius: var(--md);
 }
+
+.notification {
+  border: 1px solid gray;
+  padding: var(--md) var(--lg);
+  border-radius: var(--md);
+  margin-block: var(--lg);
+
+  span {
+    color: gray;
+    display: flex;
+    font-size: small;
+  }
+
+  p {
+    margin: var(--xs) 0;
+    margin-left: 20px;    
+  }
+}
