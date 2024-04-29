@@ -1,33 +1,74 @@
 :root {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color-scheme: light dark;
+
+  --xs: 4px;
+  --sm: 6px;
+  --md: 8px;
+  --lg: 16px;
+  --xl: 32px;
 }
 
-ul {
+ul, h1, h2 {
   margin: 0;
 }
 
 main {
-  margin-inline: auto;
   max-width: 1000px;
+  margin-inline: auto;
 }
 
 form {
   border: 1px solid gray;
   display: inline-block;
-  padding: 16px;
-  margin-block: 16px;
-  border-radius: 8px;
+  padding: var(--lg);
+  margin-block: var(--lg);
+  border-radius: var(--md);
 
-  h2 {
-    margin: 0;
+  button {
+    border: none;
+    cursor: pointer;
+    padding: var(--md) var(--lg);
+    font-size: medium;
+    margin-top: var(--md);
+    width: 100%;
+    border-radius: var(--sm);
+    background-color: light-dark(#a7a7a7, #313131);
   }
+}
+
+label {
+  position: relative;
+  margin-bottom: var(--md);
+}
+
+label, input {
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+input[type='text'], input[type='url'] {
+  border: 1px solid gray;
+  outline: none;
+  padding: var(--md) var(--lg);
+  margin-top: 2px;
+  font-size: medium;
+  border-radius: var(--sm);
+  background-color: light-dark(#a7a7a7, #313131);
+}
+
+section {
+  border: 1px solid gray;
+  padding: var(--lg);
+  margin-block: var(--lg);
+  border-radius: var(--md);
 }
 
 footer {
   border: 1px solid gray;
-  padding: 16px;
+  padding: var(--lg);
   text-wrap: pretty;
-  margin-top: 32px;
-  border-radius: 8px;
+  margin-top: 64px;
+  border-radius: var(--md);
 }

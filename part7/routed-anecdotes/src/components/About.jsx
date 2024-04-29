@@ -1,7 +1,8 @@
 export default function About () {
   return (
-    <div>
+    <section>
       <h2>About anecdote app</h2>
+      
       <p>According to Wikipedia:</p>
 
       <em>An anecdote is a brief, revealing account of an individual person or an incident.
@@ -10,6 +11,6 @@ export default function About () {
         An anecdote is &quot;a story with a point.&quot;</em>
 
       <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
-    </div>
+    </section>
   )
 }
