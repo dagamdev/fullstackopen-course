@@ -2,7 +2,7 @@ import { useState } from "react"
 
 /**
  * @param {string} type 
- * @returns {{type: string, value: string, onChange: (ev: import("react").ChangeEvent<HTMLInputElement>) => void, reset: () => void}}
+ * @returns {[{type: string, value: string, onChange: (ev: import("react").ChangeEvent<HTMLInputElement>) => void}, reset: () => void]}
  */
 export function useField (type) {
   const [value, setValue] = useState('')
@@ -15,10 +15,9 @@ export function useField (type) {
     setValue('')
   }
 
-  return {
+  return [{
     type,
     value,
-    onChange,
-    reset
-  }
+    onChange
+  }, reset]
 }

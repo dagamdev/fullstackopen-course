@@ -7,9 +7,9 @@ import { useField } from "../hooks"
  * @returns 
  */
 export default function CreateNew ({ addNew, addNotification }) {
-  const { reset: resetContent, ...content} = useField('text')
-  const { reset: resetAuthor, ...author} = useField('text')
-  const { reset: resetInfo, ...info} = useField('url')
+  const [content, resetContent] = useField('text')
+  const [author, resetAuthor] = useField('text')
+  const [info, resetInfo] = useField('url')
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
@@ -49,7 +49,7 @@ export default function CreateNew ({ addNew, addNotification }) {
 
       <div>
         <button form="form">Create</button>
-        <button onChange={handleReset}>Reset</button>
+        <button onClick={handleReset}>Reset</button>
       </div>
     </form>
   )
