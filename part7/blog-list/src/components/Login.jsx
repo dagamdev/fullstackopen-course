@@ -1,14 +1,31 @@
 import { useState } from 'react'
+import loginService from '../services/login'
+import storageService from '../services/storage'
+import { useDispatch } from 'react-redux'
+import { notify } from '../reducers/notificationReducer'
+import { setUser } from '../reducers/userReducer'
 
-const Login = ({ doLogin }) => {
+const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-
-  const handleLogin = (event) => {
-    event.preventDefault()
-    doLogin({ username, password })
-    setUsername('')
-    setPassword('')
+  const dispatch = useDispatch()
+  
+  const handleLogin = async (ev) => {
+    ev.preventDefault()
+    try {
+      const user = await loginService.login({
+        username,
+        password
+      })
+      dispatch(setUser(user))
+      storageService.saveUser(user)
+      dispatch(notify(`Welcome back, ${user.name}`))
+      setUsername('')
+      setPassword('')
+    } catch (error) {
+      console.error(error)
+      notify('Wrong credentials', 'error')
+    }
   }
 
   return (

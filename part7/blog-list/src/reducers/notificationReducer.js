@@ -15,23 +15,12 @@ const notificationSlice = createSlice({
 
 export const { createNotification, deleteNotification } = notificationSlice.actions
 
-let timeoutNotifi
-
-/**
- * @param {string} message 
- * @param {number} time Time in seconds
- */
-export function setNotification (message, time = 5) {
+export const notify = (message, type = 'success') => {
   return dispatch => {
-    dispatch(createNotification(message))
-
-    if (timeoutNotifi) {
-      clearTimeout(timeoutNotifi)
-    }
-
-    timeoutNotifi = setTimeout(() => {
-      dispatch(deleteNotification())
-    }, time * 1000)
+    dispatch(createNotification({ message, type }))
+    setTimeout(() => {
+      dispatch(createNotification(null))
+    }, 5000)
   }
 }
 
