@@ -7,9 +7,9 @@ import { useField } from "../hooks"
  * @returns 
  */
 export default function CreateNew ({ addNew, addNotification }) {
-  const content = useField('text')
-  const author = useField('text')
-  const info = useField('url')
+  const { reset: resetContent, ...content} = useField('text')
+  const { reset: resetAuthor, ...author} = useField('text')
+  const { reset: resetInfo, ...info} = useField('url')
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
@@ -20,12 +20,18 @@ export default function CreateNew ({ addNew, addNotification }) {
       info: info.value,
       votes: 0
     })
-    addNotification(`New anecdote '${content}' created!`)
+    addNotification(`New anecdote '${content.value}' created!`)
     navigate('/')
   }
 
+  const handleReset = () => {
+    resetContent()
+    resetAuthor()
+    resetInfo()
+  }
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id="form">
       <h2>Create a new anecdote</h2>
 
       <label>
@@ -41,7 +47,10 @@ export default function CreateNew ({ addNew, addNotification }) {
         <input name='info' {...info} required />
       </label>
 
-      <button>create</button>
+      <div>
+        <button form="form">Create</button>
+        <button onChange={handleReset}>Reset</button>
+      </div>
     </form>
   )
 }
