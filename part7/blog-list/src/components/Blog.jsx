@@ -4,7 +4,6 @@ import storage from '../services/storage'
 
 const Blog = ({ blog, handleVote, handleDelete }) => {
   const [visible, setVisible] = useState(false)
-
   const nameOfUser = blog.user ? blog.user.name : 'anonymous'
 
   const style = {
@@ -13,10 +12,8 @@ const Blog = ({ blog, handleVote, handleDelete }) => {
     borderWidth: 1,
     marginBottom: 5,
   }
-
   const canRemove = blog.user ? blog.user.username === storage.me() : true
 
-  console.log(blog.user, storage.me(), canRemove)
 
   return (
     <div style={style} className='blog'>

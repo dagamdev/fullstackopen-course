@@ -13,11 +13,14 @@ const blogsSlice = createSlice({
     },
     updateBlog (state, action) {
       return state.map(b => b.id === action.payload.id ? action.payload.blog : b)
+    },
+    removeBlog (state, action) {
+      return state.filter(b => b.id !== action.payload)
     }
   }
 })
 
-export const { setBlogs, addBlog, updateBlog } = blogsSlice.actions
+export const { setBlogs, addBlog, updateBlog, removeBlog } = blogsSlice.actions
 
 export function initializeBlogs () {
   return async dispatch => {

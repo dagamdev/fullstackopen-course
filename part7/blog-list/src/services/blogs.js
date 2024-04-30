@@ -13,7 +13,7 @@ const getAll = async () => {
 }
 
 const update = async (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject, getConfit())
+  const request = axios.patch(`${baseUrl}/${id}`, newObject, getConfit())
   return request.then(response => response.data)
 }
 
