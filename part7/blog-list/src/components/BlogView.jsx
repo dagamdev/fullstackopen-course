@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import blogService from '../services/blogs'
 import { notify } from "../reducers/notificationReducer"
@@ -9,11 +9,17 @@ export default function BlogView () {
   const {id} = useParams()
   const dispatch = useDispatch()
   const [blog, setBlog] = useState()
+  const navigate = useNavigate()
+  const [comment, setComment] = useState('')
 
   useEffect(() => {
     blogService.getById(id).then(setBlog).catch(console.error)
   }, [id])
 
+  if (!blog) return null
+
+  console.log(blog)
+  
   const canRemove = blog?.user ? blog.user?.username === storage.me() : false
 
   const handleVote = async () => {
@@ -30,15 +36,25 @@ export default function BlogView () {
   }
 
   const handleDelete = async () => {
-    // try {
-    //   if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-    //     await blogService.remove(blog.id)
-    //     dispatch(removeBlog(blog.id))
-    //     dispatch(notify(`Blog ${blog.title}, by ${blog.author} removed`))
-    //   }
-    // } catch (error) {
-    //   console.error(error)
-    // }
+    try {
+      if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+        await blogService.remove(blog.id)
+        dispatch(notify(`Blog ${blog.title}, by ${blog.author} removed`))
+        navigate('/')
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleCreateComment = async () => {
+    try {
+      const updatedBlog = await blogService.addComment(blog.id, comment)
+      setBlog(updatedBlog)
+      setComment('')
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -54,8 +70,21 @@ export default function BlogView () {
         <p>Added by {blog?.author}</p>
       </div>
 
+      <div>
+        <p>Comments</p>
+
+        <div>
+          <input type="text" value={comment} onChange={(ev) => setComment(ev.target.value)} />
+          <button onClick={handleCreateComment}>Add comment</button>
+        </div>
+
+        {(blog?.comments?.length ?? 0) > 0 && <ul>
+          {blog.comments.map((c, i) => <li key={i}>{c}</li>)}
+        </ul>}
+      </div>
+
       {canRemove && <button onClick={handleDelete}>
-        Remove
+        Delete
       </button>}
     </section>
   )

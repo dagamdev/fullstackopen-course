@@ -122,4 +122,30 @@ router.route('/:id')
     }
   })
 
+router.post('/:id/comments', middlewares.userExtractor, async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const { comment } = req.body
+
+    if (!comment) {
+      res.json({
+        error: 'the comment property has not been provided'
+      })
+      return
+    }
+
+    const blog = await Blog.findById(id).populate('user', {
+      id: 1,
+      name: 1,
+      username: 1
+    })
+    blog.comments.push(comment)
+    await blog.save()
+
+    res.json(blog)
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router
