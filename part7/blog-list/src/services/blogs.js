@@ -12,6 +12,11 @@ const getAll = async () => {
   return request.then(response => response.data)
 }
 
+const getById = async (id) => {
+  const request = axios.get(`${baseUrl}/${id}`)
+  return request.then(response => response.data)
+}
+
 const update = async (id, newObject) => {
   const request = axios.patch(`${baseUrl}/${id}`, newObject, getConfit())
   return request.then(response => response.data)
@@ -27,4 +32,4 @@ const remove = async (id) => {
   return response.data
 }
 
-export default { getAll, create, update, remove }
+export default { getAll, getById, create, update, remove }

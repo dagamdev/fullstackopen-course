@@ -1,5 +1,4 @@
 import { useEffect, createRef } from 'react'
-import blogService from './services/blogs'
 import storage from './services/storage'
 import Login from './components/Login'
 import Blog from './components/Blog'
@@ -8,11 +7,12 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import { useDispatch, useSelector } from 'react-redux'
 import { notify } from './reducers/notificationReducer'
-import { initializeBlogs, removeBlog, updateBlog } from './reducers/blogReducer'
+import { initializeBlogs } from './reducers/blogReducer'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import { setUser } from './reducers/userReducer'
 import Users from './components/Users'
 import User from './components/User'
+import BlogView from './components/BlogView'
 
 const App = () => {
   const blogs = useSelector(({blogs}) => blogs)
@@ -30,27 +30,10 @@ const App = () => {
 
   const blogFormRef = createRef()
 
-  const handleVote = async (blog) => {
-    const updatedBlog = await blogService.update(blog.id, {
-      likes: blog.likes + 1
-    })
-
-    dispatch(updateBlog({id: blog.id, blog: updatedBlog}))
-    dispatch(notify(`You liked ${updatedBlog.title} by ${updatedBlog.author}`))
-  }
-
   const handleLogout = () => {
     dispatch(setUser(null))
     storage.removeUser()
     notify(`Bye, ${user.username}!`)
-  }
-
-  const handleDelete = async (blog) => {
-    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      await blogService.remove(blog.id)
-      dispatch(removeBlog(blog.id))
-      dispatch(notify(`Blog ${blog.title}, by ${blog.author} removed`))
-    }
   }
 
   if (!user) {
@@ -89,13 +72,12 @@ const App = () => {
               <Blog
                 key={blog.id}
                 blog={blog}
-                handleVote={handleVote}
-                handleDelete={handleDelete}
               />
             )}
           </>} />
           <Route path='/users' element={<Users />} />
           <Route path='/users/:id' element={<User />} />
+          <Route path='/blogs/:id' element={<BlogView />} />
         </Routes>
       </Router>
     </main>
