@@ -3,3 +3,8 @@
   color-scheme: light dark;
 }
 
+nav {
+  display: flex;
+  column-gap: 16px;
+  padding-block: 8px;
+}

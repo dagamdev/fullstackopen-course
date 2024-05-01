@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from "react"
 import userService from '../services/users'
+import { Link } from "react-router-dom"
 
 export default function Users () {
   const [users, setUsers] = useState([])
@@ -21,7 +22,11 @@ export default function Users () {
         </tr>
         <tr>
           {users.map(u => <Fragment key={u.id}>
-            <td>{u.username}</td>
+            <td>
+              <Link to={`/users/${u.id}`}>
+                {u.username}
+              </Link>
+            </td>
             <td>{u.blogs.length}</td>
           </Fragment>)}
         </tr>

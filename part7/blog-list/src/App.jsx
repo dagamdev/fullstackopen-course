@@ -12,6 +12,7 @@ import { initializeBlogs, removeBlog, updateBlog } from './reducers/blogReducer'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import { setUser } from './reducers/userReducer'
 import Users from './components/Users'
+import User from './components/User'
 
 const App = () => {
   const blogs = useSelector(({blogs}) => blogs)
@@ -75,6 +76,10 @@ const App = () => {
         </button>
       </div>
       <Router>
+        <nav>
+          <Link to='/'>Home</Link>
+          <Link to='/users'>Users</Link>
+        </nav>
         <Routes>
           <Route path='/' element={<>
             <Togglable buttonLabel="create new blog" ref={blogFormRef}>
@@ -88,11 +93,9 @@ const App = () => {
                 handleDelete={handleDelete}
               />
             )}
-            <Link to='/users'>
-              Users
-            </Link>
           </>} />
           <Route path='/users' element={<Users />} />
+          <Route path='/users/:id' element={<User />} />
         </Routes>
       </Router>
     </main>
