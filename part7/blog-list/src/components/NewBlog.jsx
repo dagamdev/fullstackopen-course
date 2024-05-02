@@ -3,6 +3,13 @@ import blogService from '../services/blogs'
 import { useDispatch } from 'react-redux'
 import { addBlog } from '../reducers/blogReducer'
 import { notify } from '../reducers/notificationReducer'
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+  Heading
+} from '@chakra-ui/react'
 
 const NewBlog = ({ blogFormRef }) => {
   const [title, setTitle] = useState('')
@@ -39,37 +46,39 @@ const NewBlog = ({ blogFormRef }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Create a New Blog</h2>
-      <div>
-        <label>Title:</label>
-        <input
+    <FormControl as={'form'} onSubmit={handleSubmit} backgroundColor={'gray.200'} rounded={'md'} p={'4'} isRequired>
+      <Heading as={'h2'} fontSize={'2xl'} mb={'2'}>Create a New Blog</Heading>
+
+      <FormLabel>
+        Title:
+        <Input
           type="text"
           data-testid='title'
           value={title}
           onChange={handleTitleChange}
         />
-      </div>
-      <div>
-        <label>URL:</label>
-        <input
+      </FormLabel>
+      <FormLabel>
+        URL:
+        <Input
           type="text"
           data-testid='url'
           value={url}
           onChange={handleUrlChange}
         />
-      </div>
-      <div>
-        <label>Author:</label>
-        <input
+      </FormLabel>
+      <FormLabel>
+        Author:
+        <Input
           type="text"
           data-testid='author'
           value={author}
           onChange={handleAuthorChange}
         />
-      </div>
-      <button type="submit">Create</button>
-    </form>
+      </FormLabel>
+
+      <Button colorScheme='green' type="submit">Create</Button>
+    </FormControl>
   )
 }
 

@@ -13,6 +13,7 @@ import { setUser } from './reducers/userReducer'
 import Users from './components/Users'
 import User from './components/User'
 import BlogView from './components/BlogView'
+import { Box, Text, Heading, Flex, Button, Link as LinkStyle } from '@chakra-ui/react'
 
 const App = () => {
   const blogs = useSelector(({blogs}) => blogs)
@@ -49,38 +50,50 @@ const App = () => {
   const byLikes = (a, b) => b.likes - a.likes
 
   return (
-    <main>
-      <h2>Blogs</h2>
-      <Notification notification={notification} />
-      <div>
-        {user.username} logged in
-        <button onClick={handleLogout}>
-          logout
-        </button>
-      </div>
+    <Box display={'flex'} alignItems={'center'} rowGap={'6'} flexDirection={'column'} as='main' p={'5'} backgroundColor={'gray.300'} minH={'100vh'}>
       <Router>
-        <nav>
-          <Link to='/'>Home</Link>
-          <Link to='/users'>Users</Link>
-        </nav>
+
+        <Flex as={'header'} padding={'4'} columnGap={'4'} justifyContent={'space-between'} rounded={'lg'} maxW={'800px'} w={'full'} backgroundColor={'gray.200'}>
+          <Heading as={'h1'}>Blogs</Heading>
+          <Flex as={'nav'} alignItems={'center'} columnGap={'3'}>
+            <LinkStyle color={'blue.500'}>
+              <Link to='/'>Home</Link>
+            </LinkStyle>
+            <LinkStyle color={'blue.500'}>
+              <Link to='/users'>Users</Link>
+            </LinkStyle>
+          </Flex>
+          <Flex alignItems={'center'} columnGap={'2'}>
+            <Text>{user.username} logged in</Text>
+            <Button colorScheme='red' onClick={handleLogout}>
+              logout
+            </Button>
+          </Flex>
+        </Flex>
+
+        <Notification notification={notification} />
+        
         <Routes>
           <Route path='/' element={<>
-            <Togglable buttonLabel="create new blog" ref={blogFormRef}>
+            <Togglable buttonLabel="Create new blog" ref={blogFormRef}>
               <NewBlog blogFormRef={blogFormRef} />
             </Togglable>
-            {blogs.slice().sort(byLikes).map(blog =>
-              <Blog
-                key={blog.id}
-                blog={blog}
-              />
-            )}
+            <Box as='ul' display={'flex'} flexDirection={'column'} rowGap={'3'}>
+              {blogs.slice().sort(byLikes).map(blog =>
+                <Blog
+                  key={blog.id}
+                  blog={blog}
+                />
+              )}
+            </Box>
           </>} />
           <Route path='/users' element={<Users />} />
           <Route path='/users/:id' element={<User />} />
           <Route path='/blogs/:id' element={<BlogView />} />
         </Routes>
+
       </Router>
-    </main>
+    </Box>
   )
 }
 

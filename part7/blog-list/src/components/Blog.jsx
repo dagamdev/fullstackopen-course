@@ -1,19 +1,12 @@
 import PropTypes from 'prop-types'
+import { Link as LinkStyle } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
 
 const Blog = ({ blog }) => {
-
-  const style = {
-    border: 'solid',
-    padding: 10,
-    borderWidth: 1,
-    marginBottom: 5,
-  }
-
-
   return (
-    <div style={style} className='blog'>
-      <a href={`/blogs/${blog.id}`}>{blog.title}</a>
-    </div>
+    <LinkStyle display={'block'} py={'2'} px={'4'} backgroundColor={'gray.400'} rounded={'md'} boxShadow={'md'}>
+      <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+    </LinkStyle>
   )
 }
 
@@ -22,10 +15,8 @@ Blog.propTypes = {
     url: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     likes: PropTypes.number.isRequired,
-    user: PropTypes.object,
-  }).isRequired,
-  handleVote: PropTypes.func.isRequired,
-  handleDelete: PropTypes.func.isRequired
+    user: PropTypes.object
+  }).isRequired
 }
 
 export default Blog

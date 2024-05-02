@@ -1,9 +1,9 @@
+import { Box, Button } from '@chakra-ui/react'
 import { useState, forwardRef, useImperativeHandle } from 'react'
 
 const Togglable = forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false)
 
-  const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
 
   const toggleVisibility = () => {
@@ -16,17 +16,13 @@ const Togglable = forwardRef((props, ref) => {
     }
   })
 
-  return (
-    <div>
-      <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{props.buttonLabel}</button>
-      </div>
-      <div style={showWhenVisible}>
-        {props.children}
-        <button onClick={toggleVisibility}>cancel</button>
-      </div>
-    </div>
-  )
+  return visible
+    ? <Box style={showWhenVisible}>
+      {props.children}
+      <Button colorScheme='red' onClick={toggleVisibility}>Cancel</Button>
+    </Box>
+    : <Button colorScheme='green' onClick={toggleVisibility}>{props.buttonLabel}</Button>
+      
 })
 
 Togglable.displayName = 'Togglable'

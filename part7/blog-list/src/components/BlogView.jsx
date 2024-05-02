@@ -4,6 +4,7 @@ import blogService from '../services/blogs'
 import { notify } from "../reducers/notificationReducer"
 import storage from "../services/storage"
 import { useEffect, useState } from "react"
+import { Heading, Link, Input, Box, Button } from '@chakra-ui/react'
 
 export default function BlogView () {
   const {id} = useParams()
@@ -17,8 +18,6 @@ export default function BlogView () {
   }, [id])
 
   if (!blog) return null
-
-  console.log(blog)
   
   const canRemove = blog?.user ? blog.user?.username === storage.me() : false
 
@@ -59,33 +58,33 @@ export default function BlogView () {
 
   return (
     <section>
-      <h2>{blog?.title}</h2>
+      <Heading as={'h2'} fontSize={'3xl'}>{blog?.title}</Heading>
 
-      <div>
-        <a href={blog?.url} target="_blank">{blog?.url}</a>
-        <div>
+      <Box my={'4'}>
+        <Link href={blog?.url} color="blue.500" isExternal>{blog?.url}</Link>
+        <Box display={'flex'}>
           <p style={{margin: 0}}>{blog?.likes} likes</p>
-          <button onClick={handleVote}>Like</button>
-        </div>
+          <Button onClick={handleVote}>Like</Button>
+        </Box>
         <p>Added by {blog?.author}</p>
-      </div>
+      </Box>
 
       <div>
-        <p>Comments</p>
+        <Heading as={'h4'} fontSize={'lg'}>Comments</Heading>
 
-        <div>
-          <input type="text" value={comment} onChange={(ev) => setComment(ev.target.value)} />
-          <button onClick={handleCreateComment}>Add comment</button>
-        </div>
+        <Box>
+          <Input type="text" value={comment} onChange={(ev) => setComment(ev.target.value)} />
+          <Button colorScheme="green" onClick={handleCreateComment}>Add comment</Button>
+        </Box>
 
         {(blog?.comments?.length ?? 0) > 0 && <ul>
           {blog.comments.map((c, i) => <li key={i}>{c}</li>)}
         </ul>}
       </div>
 
-      {canRemove && <button onClick={handleDelete}>
+      {canRemove && <Button colorScheme="red" onClick={handleDelete}>
         Delete
-      </button>}
+      </Button>}
     </section>
   )
 }
