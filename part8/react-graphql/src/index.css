@@ -66,3 +66,8 @@ button:focus-visible {
 #root {
   padding: 20px;
 }
+
+.buttons {
+  display: flex;
+  gap: 16px;
+}

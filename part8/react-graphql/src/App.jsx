@@ -7,17 +7,17 @@ const App = () => {
   const [page, setPage] = useState("authors");
 
   return (
-    <div>
-      <div>
+    <main>
+      <section className="buttons">
         <button onClick={() => setPage("authors")}>authors</button>
         <button onClick={() => setPage("books")}>books</button>
         <button onClick={() => setPage("add")}>add book</button>
-      </div>
+      </section>
 
       {page === "authors" && <Authors />}
       {page === "books" && <Books />}
       {page === "add" && <NewBook />}
-    </div>
+    </main>
   );
 };
 
