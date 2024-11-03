@@ -1,11 +1,15 @@
 import { useMutation } from "@apollo/client"
 import { ALL_AUTHORS, UPDATE_AUTHOR_BORN } from "../queries"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-export default function EditAuthor () {
+export default function EditAuthor ({authors}) {
   const [name, setName] = useState('')
   const [born, setBorn] = useState('')
   const [updateBorn] = useMutation(UPDATE_AUTHOR_BORN)
+
+  useEffect(() => {
+    setName(authors[0]?.name ?? '')
+  }, [authors])
 
   const handleSubmit = (ev) => {
     ev.preventDefault()
@@ -29,11 +33,15 @@ export default function EditAuthor () {
       <form onSubmit={handleSubmit}>
         <label>
           <span>Name</span>
-          <input 
-            type="text" 
+          <select
             value={name}
-            onChange={({ target }) => setName(target.value)}
-          />
+            onChange={({ target }) => { setName(target.value) }}
+            required
+          >
+            {authors.map(author => <option key={author.id} value={author.name}>
+              {author.name}
+            </option>)}
+          </select>
         </label>
         <label>
           <span>Born</span>
@@ -41,6 +49,7 @@ export default function EditAuthor () {
             type="number"
             value={born}
             onChange={({ target }) => setBorn(target.value)}
+            required
           />
         </label>
 
