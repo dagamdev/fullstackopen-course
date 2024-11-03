@@ -71,3 +71,15 @@ button:focus-visible {
   display: flex;
   gap: 16px;
 }
+
+label {
+  display: block;
+
+  span {
+    display: block;
+  }
+}
+
+form button {
+  margin-top: 12px;
+}
