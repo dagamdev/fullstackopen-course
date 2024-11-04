@@ -33,6 +33,22 @@ const resolvers = {
       } catch (error) {
         throw new GraphQLError(error.message)
       }
+    },
+    allGenres: async () => {
+      const genres = []
+      try {
+        const allBooks = await Book.find()
+
+        for (const b of allBooks) {
+          for (const g of b.genres) {
+            if (!genres.includes(g)) genres.push(g)
+          }
+        }
+
+        return genres
+      } catch (error) {
+        throw new GraphQLError(error.message)
+      }
     }
   },
   Mutation: {
