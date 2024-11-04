@@ -1,9 +1,9 @@
 require('./db')
 const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
-const { GraphQLError } = require('graphql')
-const Book = require('./schemas/books')
-const Author = require('./schemas/author')
+const jwt = require('jsonwebtoken')
+const resolvers = require('./resolvers')
+const typeDefs = require('./type-defs')
 
 let authors = [
   {
@@ -30,16 +30,6 @@ let authors = [
     id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
   },
 ]
-
-/*
- * English:
- * It might make more sense to associate a book with its author by storing the author's id in the context of the book instead of the author's name
- * However, for simplicity, we will store the author's name in connection with the book
- *
- * Spanish:
- * Podría tener más sentido asociar un libro con su autor almacenando la id del autor en el contexto del libro en lugar del nombre del autor
- * Sin embargo, por simplicidad, almacenaremos el nombre del autor en conexión con el libro
-*/
 
 let books = [
   {
@@ -93,120 +83,6 @@ let books = [
   },
 ]
 
-/*
-  you can remove the placeholder query once your first one has been implemented 
-*/
-
-const typeDefs = `
-  type Book {
-    title: String!
-    published: Int!
-    author: Author!
-    id: ID!
-    genres: [String!]!
-  }
-
-  type Author {
-    id: ID!
-    name: String!
-    born: Int
-    bookCount: Int!
-  }
-
-  type Query {
-    bookCount: Int!
-    authorCount: Int!
-    allBooks(author: String, genre: String): [Book!]!
-    allAuthors: [Author!]!
-  }
-
-  type Mutation {
-    addBook(
-      title: String!
-      published: Int!
-      author: String!
-      genres: [String!]!
-    ): Book
-    editAuthor(
-      name: String!
-      setBornTo: Int!
-    ): Author
-  }
-`
-
-const resolvers = {
-  Query: {
-    bookCount: () => Book.collection.countDocuments(),
-    authorCount: () => Author.collection.countDocuments(),
-    allBooks: async (root, {author, genre}) => {
-      try {
-        const authorUser = await Author.findOne({name: author})
-
-        const books = await Book.find({
-          ...(authorUser ? {author: authorUser._id} : {}),
-          ...(genre ? {genres: {$in: [genre]}} : {})
-        }).populate('author')
-
-        return books
-      } catch (error) {
-        throw new GraphQLError(error.message)
-      }
-    },
-    allAuthors: async () =>  {
-      return await Author.find()
-    }
-  },
-  Mutation: {
-    addBook: async (root, args) => {
-      try {
-        if (await Book.findOne({title: args.title})) return null
-
-        const newAuthor = await Author.findOneAndUpdate(
-          {name: args.author},
-          args,
-          {new: true, upsert: true}
-        )
-
-        const newBook = await Book.create({
-          ...args,
-          author: newAuthor._id
-        })
-
-        return newBook
-      } catch (error) {
-        throw new GraphQLError(error.message, {
-          extensions: {
-            code: 'BAD_BOOK_INPUT',
-            invalidArgs: args,
-            error
-          }
-        })
-      }
-    },
-    editAuthor: (r, args) => {
-      try {
-        const author = authors.find(author => author.name === args.name)
-        if (!author) return null
-        author.born = args.setBornTo
-        return author
-      } catch (error) {
-        throw new GraphQLError(error.message, {
-          extensions: {
-            code: 'BAD_AUTHOR_INPUT',
-            invalidArgs: args,
-            error
-          }
-        })
-      }
-    }
-  },
-  Author: {
-    bookCount: async (author) => {
-      return await Book.find({author: author.id}).countDocuments()
-    }
-  }
-}
-
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -214,6 +90,17 @@ const server = new ApolloServer({
 
 startStandaloneServer(server, {
   listen: { port: 4000 },
+  async context ({req, res}) {
+    const auth = req.headers.authorization
+
+    if (auth && auth.startsWith('Bearer ')) {
+      const decodedToken = jwt.verify(
+        auth.split(/ +/g)[1], process.env.JWT_SECRET
+      )
+
+      return { currentUser: decodedToken }
+    }
+  }
 }).then(({ url }) => {
   console.log(`Server ready at ${url}`)
 })
