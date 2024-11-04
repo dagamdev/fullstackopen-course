@@ -8,15 +8,7 @@ const resolvers = {
   Query: {
     bookCount: () => Book.collection.countDocuments(),
     authorCount: () => Author.collection.countDocuments(),
-    allBooks: async (root, {author, genre}, context) => {
-      if (!context.currentUser) {
-        throw new GraphQLError('Not authenticated', {
-          extensions: {
-            code: 'UN_AUTHORIZED',
-          }
-        })
-      }
-
+    allBooks: async (root, {author, genre}) => {
       try {
         const authorUser = await Author.findOne({name: author})
 
