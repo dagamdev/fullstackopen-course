@@ -1,6 +1,7 @@
 require('./db')
 const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
+const { GraphQLError } = require('graphql')
 const Book = require('./schemas/books')
 const Author = require('./schemas/author')
 
@@ -138,14 +139,18 @@ const resolvers = {
     bookCount: () => Book.collection.countDocuments(),
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (root, {author, genre}) => {
-      const authorUser = await Author.findOne({name: author})
+      try {
+        const authorUser = await Author.findOne({name: author})
 
-      const books = await Book.find({
-        ...(authorUser ? {author: authorUser._id} : {}),
-        ...(genre ? {genres: {$in: [genre]}} : {})
-      }).populate('author')
+        const books = await Book.find({
+          ...(authorUser ? {author: authorUser._id} : {}),
+          ...(genre ? {genres: {$in: [genre]}} : {})
+        }).populate('author')
 
-      return books
+        return books
+      } catch (error) {
+        throw new GraphQLError(error.message)
+      }
     },
     allAuthors: async () =>  {
       return await Author.find()
@@ -153,26 +158,46 @@ const resolvers = {
   },
   Mutation: {
     addBook: async (root, args) => {
-      if (await Book.findOne({title: args.title})) return null
+      try {
+        if (await Book.findOne({title: args.title})) return null
 
-      const newAuthor = await Author.findOneAndUpdate(
-        {name: args.author},
-        args,
-        {new: true, upsert: true}
-      )
+        const newAuthor = await Author.findOneAndUpdate(
+          {name: args.author},
+          args,
+          {new: true, upsert: true}
+        )
 
-      const newBook = await Book.create({
-        ...args,
-        author: newAuthor._id
-      })
+        const newBook = await Book.create({
+          ...args,
+          author: newAuthor._id
+        })
 
-      return newBook
+        return newBook
+      } catch (error) {
+        throw new GraphQLError(error.message, {
+          extensions: {
+            code: 'BAD_BOOK_INPUT',
+            invalidArgs: args,
+            error
+          }
+        })
+      }
     },
     editAuthor: (r, args) => {
-      const author = authors.find(author => author.name === args.name)
-      if (!author) return null
-      author.born = args.setBornTo
-      return author
+      try {
+        const author = authors.find(author => author.name === args.name)
+        if (!author) return null
+        author.born = args.setBornTo
+        return author
+      } catch (error) {
+        throw new GraphQLError(error.message, {
+          extensions: {
+            code: 'BAD_AUTHOR_INPUT',
+            invalidArgs: args,
+            error
+          }
+        })
+      }
     }
   },
   Author: {
