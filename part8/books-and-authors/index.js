@@ -1,5 +1,8 @@
+require('./db')
 const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
+const Book = require('./schemas/books')
+const Author = require('./schemas/author')
 
 let authors = [
   {
@@ -97,7 +100,7 @@ const typeDefs = `
   type Book {
     title: String!
     published: Int!
-    author: String!
+    author: Author!
     id: ID!
     genres: [String!]!
   }
@@ -132,42 +135,49 @@ const typeDefs = `
 
 const resolvers = {
   Query: {
-    bookCount: () => books.length,
-    authorCount: () => authors.length,
-    allBooks: (root, {author, genre}) => {
-      return (author || genre) ? books.filter(book => author
-        ? book.author === author 
-        : true && 
-        genre
-          ? book.genres.includes(genre)
-          : true
-      ) : books
+    bookCount: () => Book.collection.countDocuments(),
+    authorCount: () => Author.collection.countDocuments(),
+    allBooks: async (root, {author, genre}) => {
+      const authorUser = await Author.findOne({name: author})
+
+      const books = await Book.find({
+        ...(authorUser ? {author: authorUser._id} : {}),
+        ...(genre ? {genres: {$in: [genre]}} : {})
+      }).populate('author')
+
+      return books
     },
-    allAuthors: () =>  authors
-  },
-  Author: {
-    bookCount: (a) => {
-      return books.filter(book => book.author === a.name).length
+    allAuthors: async () =>  {
+      return await Author.find()
     }
   },
   Mutation: {
-    addBook: (root, args) => {
-      if (books.some(book => book.title === args.title)) return null
-      const book = { ...args, id: crypto.randomUUID() }
-      books.push(book)
-      if (!authors.some(author => author.name === book.author)) {
-        authors.push({
-          name: book.author,
-          id: crypto.randomUUID(),
-        })
-      }
-      return book
+    addBook: async (root, args) => {
+      if (await Book.findOne({title: args.title})) return null
+
+      const newAuthor = await Author.findOneAndUpdate(
+        {name: args.author},
+        args,
+        {new: true, upsert: true}
+      )
+
+      const newBook = await Book.create({
+        ...args,
+        author: newAuthor._id
+      })
+
+      return newBook
     },
     editAuthor: (r, args) => {
       const author = authors.find(author => author.name === args.name)
       if (!author) return null
       author.born = args.setBornTo
       return author
+    }
+  },
+  Author: {
+    bookCount: async (author) => {
+      return await Book.find({author: author.id}).countDocuments()
     }
   }
 }
