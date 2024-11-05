@@ -62,5 +62,7 @@ try {
   
   console.log(calculateExercises(hours, target))
 } catch (error) {
-  console.error(error.message)
+  if (error instanceof Error) {
+    console.error(error.message)
+  } else console.error('An error has occurred')
 }
