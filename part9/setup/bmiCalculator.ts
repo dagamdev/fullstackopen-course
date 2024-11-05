@@ -1,6 +1,5 @@
 function calculateBmi (height: number, weight: number) {
   const imc = weight / Math.pow(height, 2)
-  console.log({imc})
 
   if (imc < 18.5) return `Low (unhealthy weight)`
   if (imc >= 18.5 && imc < 25) return `Normal (healthy weight)`
@@ -8,4 +7,14 @@ function calculateBmi (height: number, weight: number) {
   if (imc >= 30) return `Obesity (unhealthy weight)`
 }
 
-console.log(calculateBmi(1.80, 74))
+const height = Number(process.argv[2])
+const weight = Number(process.argv[3])
+
+try {
+  if (isNaN(height)) throw new Error('The height value is not a number')
+  if (isNaN(weight)) throw new Error('The weight value is not a number')
+  console.log(calculateBmi(height, weight))
+} catch (error) {
+  console.error(error.message)
+}
+

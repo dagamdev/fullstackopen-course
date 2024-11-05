@@ -21,7 +21,6 @@ function calculateExercises (hours: number[], target: number): Result {
   const periodLength = hours.length
   const average = allHours / periodLength
   const firstMedition = target / 2
-  console.log(firstMedition, average)
 
   if (average <= firstMedition) {
     rating = 1
@@ -47,4 +46,21 @@ function calculateExercises (hours: number[], target: number): Result {
   }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+const target = Number(process.argv[2])
+const hours: number[] = []
+
+try {
+  if (isNaN(target)) throw new Error('The target value is not a number')
+
+  const strHours = process.argv.slice(3)
+
+  for (const strHour of strHours) {
+    const hour = +strHour
+    if (isNaN(hour)) throw new Error(`The hour ${strHour} is not a number`)
+    hours.push(hour)
+  }
+  
+  console.log(calculateExercises(hours, target))
+} catch (error) {
+  console.error(error.message)
+}
