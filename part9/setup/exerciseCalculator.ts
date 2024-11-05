@@ -8,7 +8,7 @@ interface Result {
   average: number
 }
 
-function calculateExercises (hours: number[], target: number): Result {
+export function calculateExercises (hours: number[], target: number): Result {
   let trainingDays = 0, success = true, allHours = 0, rating = 0, ratingDescription = ''
 
   for (const hour of hours) {
@@ -46,23 +46,23 @@ function calculateExercises (hours: number[], target: number): Result {
   }
 }
 
-const target = Number(process.argv[2])
-const hours: number[] = []
+// const target = Number(process.argv[2])
+// const hours: number[] = []
 
-try {
-  if (isNaN(target)) throw new Error('The target value is not a number')
+// try {
+//   if (isNaN(target)) throw new Error('The target value is not a number')
 
-  const strHours = process.argv.slice(3)
+//   const strHours = process.argv.slice(3)
 
-  for (const strHour of strHours) {
-    const hour = +strHour
-    if (isNaN(hour)) throw new Error(`The hour ${strHour} is not a number`)
-    hours.push(hour)
-  }
+//   for (const strHour of strHours) {
+//     const hour = +strHour
+//     if (isNaN(hour)) throw new Error(`The hour ${strHour} is not a number`)
+//     hours.push(hour)
+//   }
   
-  console.log(calculateExercises(hours, target))
-} catch (error) {
-  if (error instanceof Error) {
-    console.error(error.message)
-  } else console.error('An error has occurred')
-}
+//   console.log(calculateExercises(hours, target))
+// } catch (error) {
+//   if (error instanceof Error) {
+//     console.error(error.message)
+//   } else console.error('An error has occurred')
+// }
