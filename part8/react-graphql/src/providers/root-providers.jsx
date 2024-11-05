@@ -1,46 +1,11 @@
-import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache, split } from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import LoginProvider from './login-provider'
-import { getMainDefinition } from '@apollo/client/utilities'
-import { WebSocketLink } from '@apollo/client/link/ws'
-
-const authLink = setContext((_, {headers}) => {
-  const token = localStorage.getItem('token')
-
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : null
-    }
-  }
-})
-
-const httpLink = createHttpLink({
-  uri: 'http://localhost:4000'
-})
-
-const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:4000/graphql',
-  options: { 
-    reconnect: true
-  }
-})
-
-const splitLink = split(({query}) => {
-  const definition = getMainDefinition(query)
-  return (
-    definition.kind === 'OperationDefinition' &&
-    definition.operation === 'subscription'
-  ),
-  wsLink,
-  authLink.concat(httpLink)
-})
+import { getWsHttpSplitLink } from '../utils'
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: splitLink
+  link: getWsHttpSplitLink()
 })
-
 
 export default function RootProviders ({children}) {
   return (

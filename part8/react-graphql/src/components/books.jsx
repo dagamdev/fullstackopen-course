@@ -1,5 +1,5 @@
-import { useLazyQuery, useQuery } from "@apollo/client"
-import { ALL_BOOKS, ALL_GENRES } from "../queries"
+import { gql, useApolloClient, useLazyQuery, useQuery, useSubscription } from "@apollo/client"
+import { ALL_BOOKS, ALL_GENRES, BOOK_ADDED } from "../queries"
 import { useState, useEffect } from "react"
 import BooksTable from "./books-table"
 
@@ -8,6 +8,7 @@ const Books = () => {
   const [getAllBooks, booksResult] = useLazyQuery(ALL_BOOKS)
   const [allGenres, setAllGenres] = useState([])
   const [selectedGenre, setSelectedGenre] = useState()
+  const client = useApolloClient()
 
   useEffect(() => {
     getAllBooks({variables: {
@@ -20,6 +21,43 @@ const Books = () => {
       setAllGenres(genresResult.data.allGenres)
     }
   }, [genresResult.data])
+
+  useSubscription(BOOK_ADDED, {
+    onData ({data}) {
+      console.log(data)
+      const addedBook = data.data.bookAdded
+      window.alert(`New book created: ${addedBook.title}`)
+
+      if (selectedGenre === undefined || addedBook.genres.includes(selectedGenre)) {
+        client.cache.modify({
+          fields: {
+            items(existingItems = []) {
+              const newItemRef = client.cache.writeFragment({
+                data: data.newItem,
+                fragment: gql`
+                  fragment NewItem on Item {
+                    id
+                    title
+                    author {
+                      id
+                      name
+                      born
+                    }
+                    genres
+                    published
+                  }
+                `
+              });
+              return [...existingItems, newItemRef];
+            },
+          }
+        })
+        getAllBooks({variables: {
+          genre: selectedGenre
+        }})
+      }
+    }
+  })
 
   return (
     <div>
