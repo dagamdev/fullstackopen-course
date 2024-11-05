@@ -5,6 +5,8 @@ import NewBook from "./components/new-book";
 import LoginForm from "./components/login-form";
 import { useLogin } from "./hooks/useLogin";
 import RecommendedBooks from "./components/recommended-books";
+import { useSubscription } from "@apollo/client";
+import { BOOK_ADDED } from "./queries";
 
 const App = () => {
   const [page, setPage] = useState("authors");
@@ -13,6 +15,13 @@ const App = () => {
   useEffect(() => {
     if (login && page === 'login') setPage('authors')
   }, [login])
+
+  useSubscription(BOOK_ADDED, {
+    onData ({data}) {
+      console.log(data)
+      window.alert(`New book created: ${data.bookAdded.title}`)
+    }
+  })
 
   return (
     <main>

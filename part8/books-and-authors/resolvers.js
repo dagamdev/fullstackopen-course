@@ -1,8 +1,10 @@
-const { GraphQLError } = require('graphql')
+const { GraphQLError, subscribe } = require('graphql')
 const Book = require('./schemas/books')
 const Author = require('./schemas/author')
 const User = require('./schemas/user')
 const jwt = require('jsonwebtoken')
+const { PubSub } = require('graphql-subscriptions')
+const pubsub = new PubSub()
 
 const resolvers = {
   Query: {
@@ -75,6 +77,8 @@ const resolvers = {
           author: newAuthor._id
         })
         const book = await newBook.populate('author')
+
+        pubsub.publish('BOOK_ADDED', { bookAdded: book })
 
         return book
       } catch (error) {
@@ -156,6 +160,11 @@ const resolvers = {
   Author: {
     bookCount: async (author) => {
       return await Book.find({author: author.id}).countDocuments()
+    }
+  },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterator(['BOOK_ADDED'])
     }
   }
 }
