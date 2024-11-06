@@ -9,16 +9,16 @@ app.get('/hello', (_req, res) => {
 })
 
 app.get('/bmi', (req, res) => {
-  const height  = Number(req.query.height)
-  const weight  = Number(req.query.weight)
+  const height = Number(req.query.height)
+  const weight = Number(req.query.weight)
   console.log(height, weight)
 
   if (isNaN(height)) {
-    res.status(404).json({error: 'The height query parama is not number'})
+    res.status(404).json({ error: 'The height query parama is not number' })
     return
   }
   if (isNaN(weight)) {
-    res.status(404).json({error: 'The weight query parama is not number'})
+    res.status(404).json({ error: 'The weight query parama is not number' })
     return
   }
 

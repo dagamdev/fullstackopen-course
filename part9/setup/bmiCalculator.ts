@@ -1,10 +1,10 @@
 export function calculateBmi (height: number, weight: number) {
   const imc = weight / Math.pow(height, 2)
 
-  if (imc < 18.5) return `Low (unhealthy weight)`
-  if (imc >= 18.5 && imc < 25) return `Normal (healthy weight)`
-  if (imc >= 25 && imc < 30) return `Overweight (unhealthy weight)`
-  return `Obesity (unhealthy weight)`
+  if (imc < 18.5) return 'Low (unhealthy weight)'
+  if (imc >= 18.5 && imc < 25) return 'Normal (healthy weight)'
+  if (imc >= 25 && imc < 30) return 'Overweight (unhealthy weight)'
+  return 'Obesity (unhealthy weight)'
 }
 
 // const height = Number(process.argv[2])
@@ -19,4 +19,3 @@ export function calculateBmi (height: number, weight: number) {
 //     console.error(error.message)
 //   } else console.error('An error has occurred')
 // }
-
