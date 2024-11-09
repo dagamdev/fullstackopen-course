@@ -65,36 +65,40 @@ export default function AddForm () {
           required
         />
       </label>
-      <label>
-        <span>Visibility</span>
-        <select
-          value={visibility}
-          onChange={({target}) => {
-            setVisibility(target.value) 
-            if (error) setError(undefined)
-          }}
-          required
-        >
-          {getObjectValues(VISIBILITY).map(v => <option key={v} value={v}>
+      <section>
+        <strong>Visibility</strong>
+        <div>
+          {getObjectValues(VISIBILITY).map(v => <label key={v}>
             {v}
-          </option>)}
-        </select>
-      </label>
-      <label>
-        <span>Weather</span>
-        <select
-          value={weather}
-          onChange={({target}) => {
-            setWeather(target.value) 
-            if (error) setError(undefined)
-          }}
-          required
-        >
-          {getObjectValues(WEATHER).map(w => <option key={w} value={w}>
-            {w}
-          </option>)}
-        </select>
-      </label>
+            <input
+              type="radio"
+              value={v}
+              checked={v === visibility}
+              onChange={({target}) => {
+                setVisibility(target.value)
+                if (error) setError(undefined)
+              }}
+            />
+          </label>)}
+        </div>
+      </section>
+      <section>
+        <strong>Weather</strong>
+        <div>
+          {getObjectValues(WEATHER).map(v => <label key={v}>
+            {v}
+            <input
+              type="radio"
+              value={v}
+              checked={v === weather}
+              onChange={({target}) => {
+                setWeather(target.value)
+                if (error) setError(undefined)
+              }}
+            />
+          </label>)}
+        </div>
+      </section>
       <label>
         <span>Comment</span>
         <input

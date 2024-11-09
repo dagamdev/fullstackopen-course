@@ -5,7 +5,8 @@ export interface DiaryI {
   date: string
   weather: `${WEATHER}`
   visibility: `${VISIBILITY}`
-  comment: string
 }
 
-export type NewDiary = Omit<DiaryI, 'id'>
+export interface NewDiary extends Omit<DiaryI, 'id'> {
+  comment: string
+}

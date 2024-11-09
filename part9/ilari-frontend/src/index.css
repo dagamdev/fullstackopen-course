@@ -79,3 +79,12 @@ form button {
 .error {
   color: rgb(235, 71, 71);
 }
+
+section div {
+  display: flex;
+  gap: 8px;
+}
+
+form section {
+  margin-block: 8px;
+}

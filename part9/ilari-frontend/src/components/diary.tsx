@@ -6,7 +6,6 @@ export default function Diary ({diary}: {diary: DiaryI}) {
       <strong>{diary.date}</strong>
       <p>Visibility: {diary.visibility}</p>
       <p>Weather: {diary.weather}</p>
-      <p>{diary.comment}</p>
     </article>
   )
 }
