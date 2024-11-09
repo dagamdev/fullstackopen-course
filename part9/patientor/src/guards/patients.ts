@@ -2,7 +2,7 @@ import { GENDER } from "../enums";
 import { isString, isDate } from ".";
 import type { Patient } from "types";
 
-type NewPatientEntry = Omit<Patient, 'id'>
+type NewPatientEntry = Omit<Patient, 'id' | 'entries'>
 
 function parseName (name: unknown) {
   if (!isString(name)) {
