@@ -1,11 +1,10 @@
-interface Part {
-  name: string
-  exerciseCount: number
-}
+import Part from "./part"
+import type { CoursePart } from "../types"
 
-export default function Content ({parts}: {parts: Part[]}) {
-  return (parts.map(part => <p key={part.name}>
-      {part.name} {part.exerciseCount}
-    </p>)
+export default function Content ({parts}: {parts: CoursePart[]}) {
+  return (
+    <section>
+      {parts.map(part => <Part part={part}/>)}
+    </section>
   )
 }
