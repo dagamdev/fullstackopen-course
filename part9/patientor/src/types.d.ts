@@ -20,4 +20,6 @@ export interface Patient {
   entries: Entry[]
 }
 
+export type NewPatient = Omit<NewPatient, 'id' | 'entries'>
+
 export type NonSensitivePatient = Omit<Patient, 'ssn' | 'entries'>
