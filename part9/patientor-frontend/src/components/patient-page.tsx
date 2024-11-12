@@ -26,6 +26,22 @@ export default function PatientPage () {
 
       {patient.ssn && <p>ssh: {patient.ssn}</p>}
       <p>Ocupation: {patient.occupation}</p>
+      
+      <div>
+        <Typography variant="h5" fontWeight={'bold'}>
+          Entries
+        </Typography> 
+
+        <div>
+          {patient.entries.map(e => <article key={e.id}>
+            <p>{e.date} {e.description}</p>
+
+            <ul>
+              {e.diagnosisCodes?.map(d => <li key={d}>{d}</li>)}
+            </ul>
+          </article>)}
+        </div>
+      </div>
     </section>
   );
 }
