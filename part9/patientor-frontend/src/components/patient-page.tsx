@@ -4,6 +4,8 @@ import { Male, Female } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import patientService from "../services/patients";
+import '../styles/entry.css';
+import EntryDetails from "./entry-details";
 
 export default function PatientPage ({diagnoses, setDiagnoses}: {
   diagnoses: Diagnosis[]
@@ -43,14 +45,8 @@ export default function PatientPage ({diagnoses, setDiagnoses}: {
           Entries
         </Typography> 
 
-        <div>
-          {patient.entries.map(e => <article key={e.id}>
-            <p>{e.date} {e.description}</p>
-
-            <ul>
-              {e.diagnosisCodes?.map(d => <li key={d}><span>{d}</span> {diagnoses.find(di => di.code === d)?.name}</li>)}
-            </ul>
-          </article>)}
+        <div className="entries">
+          {patient.entries.map(e => <EntryDetails key={e.id} entry={e} diagnoses={diagnoses}/>)}
         </div>
       </div>
     </section>
