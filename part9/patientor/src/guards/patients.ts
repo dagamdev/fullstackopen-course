@@ -1,6 +1,6 @@
 import { GENDER } from "../enums";
 import { isString, isDate } from ".";
-import type { Patient } from "types";
+import type { Diagnose, Patient } from "types";
 
 type NewPatientEntry = Omit<Patient, 'id' | 'entries'>
 
@@ -66,4 +66,12 @@ export function toNewPatientEntry (object: unknown): NewPatientEntry {
   }
 
   throw new Error('Incorrect data: a field missing');
+};
+
+export function parseDiagnosisCodes (object: unknown): Array<Diagnose['code']> {
+  if (!object || typeof object !== 'object' || !('diagnosisCodes' in object)) {
+    throw new Error('Incorrect or missing data');
+  }
+
+  return object.diagnosisCodes as Array<Diagnose['code']>;
 };

@@ -1,6 +1,6 @@
 import express from 'express'
 import patientsService from '../services/patients'
-import { toNewPatientEntry } from '../guards/patients'
+import { parseDiagnosisCodes, toNewPatientEntry } from '../guards/patients'
 
 const router = express.Router()
 
@@ -33,6 +33,21 @@ router.get('/:id', (req, res) => {
   }
 
   res.json(patient)
+})
+
+router.post('/:id/entries', (req, res) => {
+  try {
+    const diagnosisCodes = parseDiagnosisCodes(req.body)
+  
+    res.json(diagnosisCodes)
+    
+  } catch (error) {
+    let errorMessage = 'Something went wrong.';
+    if (error instanceof Error) {
+      errorMessage += ' Error: ' + error.message;
+    }
+    res.status(400).send(errorMessage);
+  }
 })
 
 export default router
